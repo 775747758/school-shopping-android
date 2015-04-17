@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="titleBar">#E64239</color>
+    <color name="titleBar_pressed">#c42017</color>
+	<color name="hinttextcolor">#B5B4B4</color>
+	<color name="white">#ffffff</color>
+	<color name="transparent">#00000000</color>
+	<color name="PressedColor">#EEEEEE</color>
+	<!-- 主界面背景颜色 -->
+	<color name="bg_page">#ffebebeb</color>
+</resources>

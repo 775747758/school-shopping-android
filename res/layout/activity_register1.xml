@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFCF8"
+    android:orientation="vertical" >
+
+    <include layout="@layout/title_bar_register1" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp" >
+
+        <EditText
+             android:id="@+id/username"
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:textColorHint="#B5B4B4"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="填写用户名"
+            android:paddingLeft="45dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/user_2" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:background="#B5B4B4" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp" >
+
+        <EditText
+            android:id="@+id/password"
+       		 android:inputType="textPassword"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            android:textColorHint="#B5B4B4"
+            android:textSize="18dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="填写密码"
+            android:paddingLeft="45dp" />
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/lock" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:background="#B5B4B4" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:text="用户名和密码都请输入6~16位数字或字母"
+        android:textColor="#B5B4B4" />
+
+    <LinearLayout
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:onClick="returnn"
+            android:clickable="true"
+            android:layout_weight="1"
+            android:id="@+id/category_tv"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/selector__category_item"
+            android:cacheColorHint="#00000000"
+            android:gravity="center"
+            android:text="返回"
+            android:textColor="@drawable/selector__recommend_gv_color"
+            android:textColorHint="#00000000"
+            android:textSize="18dp"
+            />
+
+        <TextView
+            android:onClick="next"
+            android:clickable="true"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/selector__category_item"
+            android:textColor="@drawable/selector__recommend_gv_color"
+            android:cacheColorHint="#00000000"
+            android:gravity="center"
+            android:text="下一步"
+            android:textColorHint="#00000000"
+            android:textSize="18dp"
+             />
+    </LinearLayout>
+
+</LinearLayout>
