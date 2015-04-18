@@ -127,11 +127,11 @@ public class UploadUtil {
 						Bundle bundle=new Bundle();
 						bundle.putString("response", response.toString());
 						msg.setData(bundle);
-						Fragment_Home.mHandler.sendMessage(msg);	
+						//Fragment_Home.mHandler.sendMessage(msg);	
 				}}, new Response.ErrorListener() {
 					public void onErrorResponse(
 							com.android.volley.VolleyError arg0) {
-						Fragment_Home.mHandler.sendEmptyMessage(URLProtocol.STATUS_FAILURE);
+						//Fragment_Home.mHandler.sendEmptyMessage(URLProtocol.STATUS_FAILURE);
 						
 					}
 				});

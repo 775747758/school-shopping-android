@@ -193,11 +193,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 					Object object) {
 				Log.i("info", "setPrimaryItem");
 				super.setPrimaryItem(container, position, object);
-				if(position==0&&!isFirstShow){
+				if(position==0){
 					Log.i("info", "创建："+position);
 					BaseFragment createFragment=FragmentFactory.createFragment(position);
 					createFragment.show();
-					isFirstShow=true;
+					//isFirstShow=true;
 				}
 				
 			}
@@ -345,7 +345,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		isFirstShow=false;
+		//isFirstShow=false;
 	}
 
 }

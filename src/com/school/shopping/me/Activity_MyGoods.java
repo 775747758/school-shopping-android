@@ -73,7 +73,7 @@ public class Activity_MyGoods extends Activity{
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							myGoodsLV.setAdapter(new Adapter_MyGoods(goodsData, getApplicationContext(),myApp));
+							myGoodsLV.setAdapter(new Adapter_MyGoods(goodsData));
 							
 					}}, new Response.ErrorListener() {
 						public void onErrorResponse(

@@ -1,8 +1,11 @@
 package com.school.shopping.utils;
 
+import org.apache.commons.logging.Log;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -50,10 +53,20 @@ public class UIUtils {
 		return getContext().getResources();
 	}
 	
+	/** 获取文字 */
+	public static String getString(int resId) {
+		return getResources().getString(resId);
+	}
+	
 
 	/** 获取颜色 */
 	public static int getColor(int resId) {
 		return getResources().getColor(resId);
+	}
+	
+	/** 获取drawable */
+	public static Drawable getDrawable(int resId) {
+		return getResources().getDrawable(resId);
 	}
 	
 	
@@ -70,6 +83,9 @@ public class UIUtils {
 			if (isRunInMainThread()) {
 				runnable.run();
 			} else {
+				if(getHandler()==null){
+					LogUtils.i("kong");
+				}
 				getHandler().post(runnable);
 			}
 		}

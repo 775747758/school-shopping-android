@@ -19,18 +19,15 @@ import com.school.shopping.R;
 import com.school.shopping.entity.Good;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
+import com.school.shopping.utils.UIUtils;
 
 
 public class Adapter_MyGoods extends BaseAdapter {
 
-	Context context;
 	List<Good> goods = null;
-	MyApplication myApp;
 	
-	public Adapter_MyGoods(List<Good> goods, Context context,MyApplication myApp) {
+	public Adapter_MyGoods(List<Good> goods) {
 		this.goods = goods;
-		this.context = context;
-		this.myApp=myApp;
 	}
 
 	@Override
@@ -56,7 +53,7 @@ public class Adapter_MyGoods extends BaseAdapter {
 		View view = convertView;
 		final ViewHolder holder;
 		if (convertView == null) {
-			view = LayoutInflater.from(context).inflate(R.layout.listitem_mygoods, null);
+			view = UIUtils.inflate(R.layout.listitem_mygoods);
 			holder = new ViewHolder();
 			holder.goodbg_iv = (ImageView) view.findViewById(R.id.goodbg_iv);
 			holder.goodName_tv = (TextView) view.findViewById(R.id.goodName_tv);
@@ -81,7 +78,7 @@ public class Adapter_MyGoods extends BaseAdapter {
 			e.printStackTrace();
 		}
 		Log.i("URI", paramGood.getQueryStr());
-		myApp.getImageLoader().displayImage(paramGood.getQueryStr(), holder.goodbg_iv,myApp.getOptions());
+		MyApplication.getImageLoader().displayImage(paramGood.getQueryStr(), holder.goodbg_iv,MyApplication.getOptions());
 		
 		return view;
 	}

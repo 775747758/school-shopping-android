@@ -24,9 +24,11 @@ import com.school.shopping.R;
 import com.school.shopping.adapter.Adapter_Goods;
 import com.school.shopping.entity.Good;
 import com.school.shopping.entity.User;
+import com.school.shopping.net.HomeProtocal;
 import com.school.shopping.net.URLProtocol;
 import com.school.shopping.net.UploadUtil;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.LoadingPage.LoadResult;
 
 public class Fragment_Home extends BaseFragment {
 	
@@ -35,20 +37,14 @@ public class Fragment_Home extends BaseFragment {
 	private static Adapter_Goods adapter=null;
 	private int allGoodCount=0;//数据库中所有的商品的数量
 	private int startIndex=0;
-	private View view;
-	private static MyApplication myApp;
-	private static Context context;
 
 	/*
 	 *  加载成功的界面
 	 */
 	@Override
 	public View createLoadedView() {
-		Log.i("info", "dddddddddddddddd");
 		View view=UIUtils.inflate(R.layout.activity_showgoods);
-		context=getActivity().getApplicationContext();
-		myApp = (MyApplication)getActivity().getApplication();  //获得自定义的应用程序MyApp 
-		final User user=Config.getCachedUser(context);
+		final User user=Config.getCachedUser(UIUtils.getContext());
 		allGoods_lv=(PullToRefreshListView)view.findViewById(R.id.allGoods_lv);
 		allGoods_lv.setOnScrollListener(new OnScrollListener() {
 			
@@ -59,7 +55,7 @@ public class Fragment_Home extends BaseFragment {
 					int lastPosition=view.getLastVisiblePosition();
 					if(adapter!=null&&lastPosition==adapter.getCount()-1){
 						startIndex+=20;
-						UploadUtil.getGoods(context,startIndex,startIndex+20);
+						UploadUtil.getGoods(UIUtils.getContext(),startIndex,startIndex+20);
 					}
 					break;
 				}
@@ -71,83 +67,17 @@ public class Fragment_Home extends BaseFragment {
 					int visibleItemCount, int totalItemCount) {
 			}
 		});
-		if(adapter==null){
-			adapter=new Adapter_Goods(goodsData,context,myApp);
-			allGoods_lv.setAdapter(adapter);
-		}
-		else{
-			adapter.addMoreGoods(goodsData);
-		}
-		//TextView tv=new TextView(getActivity());
-		//tv.setText("jajjajja");
+		adapter=new Adapter_Goods(goodsData);
+		allGoods_lv.setAdapter(adapter);
 		return view;
 	}
 	/*
 	 *  请求服务器获取数据
 	 */
 	@Override
-	public void load() {
-		Log.i("info", "执行loadDDDDDDDDDDDDDDDD");
-		UploadUtil.getGoods(getActivity(),startIndex,startIndex+20);
-		
+	public LoadResult load() {
+		HomeProtocal protocal=new HomeProtocal();
+		goodsData=protocal.load(0, 20);
+		return LoadResult.success;
 	}
-	@Override
-	public void initHandler() {
-		mHandler=new Handler(){
-			public void handleMessage(android.os.Message msg) {
-				Bundle bundle=msg.getData();
-				if(bundle!=null){
-					Log.i("info", "收到数据："+bundle.getString("response"));
-					state = STATE_SUCCESS;
-
-					Log.i("info", "执行success");
-					goodsData.clear();
-					String jsonStr=bundle.getString("response");
-					if(jsonStr!=null){
-						Log.i("SHOP", "手到!");
-						try {
-							JSONObject jsonObject=new JSONObject(jsonStr);
-							String temp=jsonObject.getString("goods");
-							if(temp==null||"".equals(temp)){
-							}
-							else{
-								JSONArray tempArr=new JSONArray(temp);
-								for(int i=0;i<tempArr.length();i++){
-									JSONObject jso=new JSONObject(tempArr.get(i).toString());
-									Good good=new Good();
-									good.setGoodName(jso.getString("goodName"));
-									good.setPrice(jso.getString("price"));
-									good.setType(jso.getString("type"));
-									good.setIsAdjust(jso.getInt("isAdjust"));
-									good.setNewLevel(jso.getString("newLevel"));
-									good.setIntroduction(jso.getString("introduction"));
-									good.setUid(jso.getInt("uid"));
-									good.setId(jso.getInt("id"));
-									goodsData.add(good);
-							}
-								
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						
-					}
-					Log.i("info", "knakannannanana");
-					show();
-				
-				}else{
-					
-				}
-				if(msg.what==URLProtocol.STATUS_FAILURE){
-					//UIUtils.showMsg("服务器出现问题，我们会尽快解决");
-					state=STATE_ERROR;
-					show();
-				}
-				
-			};
-		};
-		
-	}
-
 }

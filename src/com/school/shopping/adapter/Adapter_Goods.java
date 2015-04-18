@@ -20,18 +20,15 @@ import com.school.shopping.R;
 import com.school.shopping.entity.Good;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
+import com.school.shopping.utils.UIUtils;
 
 
 public class Adapter_Goods extends BaseAdapter {
 
-	Context context;
 	List<Good> goods = null;
-	MyApplication myApp;
 	
-	public Adapter_Goods(List<Good> goods, Context context,MyApplication myApp) {
+	public Adapter_Goods(List<Good> goods) {
 		this.goods = goods;
-		this.context = context;
-		this.myApp=myApp;
 	}
 
 	@Override
@@ -54,10 +51,10 @@ public class Adapter_Goods extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = convertView;
+		View view;
 		final ViewHolder holder;
 		if (convertView == null) {
-			view = LayoutInflater.from(context).inflate(R.layout.listitem_goods, null);
+			view = UIUtils.inflate(R.layout.listitem_goods);
 			holder = new ViewHolder();
 			holder.goodbg_iv = (ImageView) view.findViewById(R.id.goodbg_iv);
 			holder.goodName_tv = (TextView) view.findViewById(R.id.goodName_tv);
@@ -68,6 +65,7 @@ public class Adapter_Goods extends BaseAdapter {
 			holder.portrait=(CustomShapeImageView)view.findViewById(R.id.portrait);
 			view.setTag(holder);
 		} else {
+			view=convertView;
 			holder = (ViewHolder) view.getTag();
 		}
 		Log.i("good", goods.get(position).toString());
@@ -86,8 +84,8 @@ public class Adapter_Goods extends BaseAdapter {
 		}
 		Log.i("URI", paramUser.getQueryStr());
 		Log.i("URI", paramGood.getQueryStr());
-		myApp.getImageLoader().displayImage(paramUser.getQueryStr(), holder.portrait,myApp.getOptions());
-		myApp.getImageLoader().displayImage(paramGood.getQueryStr(), holder.goodbg_iv,myApp.getOptions());
+		MyApplication.getImageLoader().displayImage(paramUser.getQueryStr(), holder.portrait,MyApplication.getOptions());
+		MyApplication.getImageLoader().displayImage(paramGood.getQueryStr(), holder.goodbg_iv,MyApplication.getOptions());
 		//ImageLoader.getInstance().displayImage(paramGood.getQueryStr(), holder.goodbg_iv, options, animateFirstListener);
 		
 		return view;

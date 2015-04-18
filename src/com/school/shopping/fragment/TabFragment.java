@@ -5,6 +5,7 @@ import com.school.shopping.R;
 import com.school.shopping.R.layout;
 import com.school.shopping.entity.User;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.LoadingPage.LoadResult;
 
 import io.rong.imkit.RongIM;
 import android.graphics.Color;
@@ -61,16 +62,12 @@ public class TabFragment extends BaseFragment
 		return view;
 	}
 
+
 	@Override
-	public void load() {
+	public LoadResult load() {
 		// TODO Auto-generated method stub
-		
+		return LoadResult.error;
 	}
 
 
-	@Override
-	public void initHandler() {
-		// TODO Auto-generated method stub
-		
-	}
 }

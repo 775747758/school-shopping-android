@@ -19,6 +19,7 @@ import com.school.shopping.me.Activity_MyGoods;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.LoadingPage.LoadResult;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -139,17 +140,14 @@ public class Fragment_Me extends BaseFragment implements OnClickListener{
 		init();
 		return view;
 	}
+	@Override
+	public LoadResult load() {
+		// TODO Auto-generated method stub
+		return LoadResult.error;
+	}
 
-	@Override
-	public void load() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void initHandler() {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 
 
 }

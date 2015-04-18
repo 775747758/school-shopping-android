@@ -29,6 +29,7 @@ import com.school.shopping.login.Activity_Register3;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
 import com.school.shopping.utils.DeviceInfo;
+import com.school.shopping.utils.UIUtils;
 
 import android.app.Application;
 import android.content.Intent;
@@ -40,8 +41,8 @@ public class MyApplication extends Application {
 
 	public int SELECT_SELECT_PICTURE = 10;
 	public int SELECT_CAMERA_RESULT = 11;
-	public File cacheDir;
-	public ImageLoader imageLoader;
+	public static File cacheDir;
+	public static ImageLoader imageLoader;
 	public static Application application;
 	//获取到主线程的id
     private static int mMainTheadId ;
@@ -50,12 +51,15 @@ public class MyApplication extends Application {
 
 	@Override
 	public void onCreate() {
+		this.mMainTheadId = android.os.Process.myTid();
+		application=this;
+		this.mMainThreadHandler = new Handler();
 		setCachePath();// 设置缓存路径
 		initUniversalImageLoader();// 初始化UniversalImageLoader
 		//链接融云服务器
 		connectRY();
-		application=this;
-		this.mMainTheadId = android.os.Process.myTid();
+		
+		
 		super.onCreate();
 		
 	}
@@ -68,7 +72,7 @@ public class MyApplication extends Application {
 		return mMainThreadHandler;
 	}
 
-	public void connectRY() {
+	private  void connectRY() {
 
 		String token = Config.getCachedToken(getApplicationContext());
 		//String token="PjeUvoPUf9pWr6RnkgnzZXq9xLh/oMx7amtlqs5tbs5dB2k5apj+lhSbsRBGT9HLiJM0xkkCeSlc1mms+SmncQ==";
@@ -100,11 +104,11 @@ public class MyApplication extends Application {
 
 	}
 
-	public ImageLoader getImageLoader() {
+	public static ImageLoader getImageLoader() {
 		return imageLoader;
 	}
 
-	public DisplayImageOptions getOptions() {
+	public static DisplayImageOptions getOptions() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showStubImage(R.drawable.ic_launcher)// 设置图片在下载期间显示的图片
 				.showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
@@ -115,7 +119,7 @@ public class MyApplication extends Application {
 		return options;
 	}
 
-	public DisplayImageOptions getNoCacheOptions() {
+	public static DisplayImageOptions getNoCacheOptions() {
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showStubImage(R.drawable.ic_launcher)// 设置图片在下载期间显示的图片
 				.showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
@@ -126,21 +130,21 @@ public class MyApplication extends Application {
 		return options;
 	}
 
-	public File getCachePath() {
+	public static File getCachePath() {
 		return cacheDir;
 	}
 
-	public void setCachePath() {
+	public static void setCachePath() {
 		cacheDir = new File(Environment.getExternalStorageDirectory()
 				.getAbsoluteFile()
 				+ "/"
-				+ getResources().getString(R.string.app_name));
+				+ UIUtils.getString(R.string.app_name));
 		if (!cacheDir.exists()) {
 			cacheDir.mkdir();
 		}
 	}
 
-	public void initUniversalImageLoader() {
+	private void initUniversalImageLoader() {
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getApplicationContext())
 				.threadPriority(Thread.NORM_PRIORITY - 2)// 设置线程的优先级
