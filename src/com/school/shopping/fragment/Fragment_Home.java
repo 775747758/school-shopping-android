@@ -14,7 +14,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -77,7 +79,7 @@ public class Fragment_Home extends BaseFragment {
 	@Override
 	public LoadResult load() {
 		HomeProtocal protocal=new HomeProtocal();
-		goodsData=protocal.load(0, 20);
+		goodsData=protocal.load(0, 20,true);
 		return LoadResult.success;
 	}
 }

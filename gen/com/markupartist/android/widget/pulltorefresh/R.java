@@ -10,17 +10,17 @@ public final class R {
 	public static final class drawable {
 		public static final int ic_pulltorefresh_arrow = 0x7f02004f;
 		public static final int icon = 0x7f020050;
-		public static final int pull_to_refresh_header_background = 0x7f02005e;
+		public static final int pull_to_refresh_header_background = 0x7f020062;
 	}
 	public static final class id {
-		public static final int pull_to_refresh_header = 0x7f0900a8;
-		public static final int pull_to_refresh_image = 0x7f0900aa;
-		public static final int pull_to_refresh_progress = 0x7f0900a9;
-		public static final int pull_to_refresh_text = 0x7f0900ab;
-		public static final int pull_to_refresh_updated_at = 0x7f0900ac;
+		public static final int pull_to_refresh_header = 0x7f0900ad;
+		public static final int pull_to_refresh_image = 0x7f0900af;
+		public static final int pull_to_refresh_progress = 0x7f0900ae;
+		public static final int pull_to_refresh_text = 0x7f0900b0;
+		public static final int pull_to_refresh_updated_at = 0x7f0900b1;
 	}
 	public static final class layout {
-		public static final int pull_to_refresh_header = 0x7f03002f;
+		public static final int pull_to_refresh_header = 0x7f030030;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f0a000f;

@@ -12,5 +12,8 @@
     <string name="tab_found">发现</string>
     <string name="tab_me">我</string>
     
+     <string name="load_more">加载中...</string>
+    <string name="load_error">加载失败,点击重试</string>
+    
 
 </resources>

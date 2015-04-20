@@ -45,23 +45,37 @@ import android.util.Log;
 public abstract class BaseProtocol<T> {
 	public static final String cachePath = "";
 	private RequestQueue requestQueue;
-
-	/** 加载协议 */
-	public T load(int startIndex, int lastIndex) {
+	
+	private boolean isFromCache;
+	/** 加载协议 
+	 * @param isFromCache */
+	public T load(int startIndex, int lastIndex, boolean isFromCache) {
+		
+		this.isFromCache=isFromCache;
+		
 		SystemClock.sleep(1000);// 休息1秒，防止加载过快，看不到界面变化效果
+		
 		String json = null;
-		// 1.从本地缓存读取数据，查看缓存时间
-		json = loadFromLocal();
-		// 2.如果缓存时间过期，从网络加载
-		if (TextUtils.isEmpty(json)) {
+		//如果是加载更多直接从网络获取
+		if(!isFromCache){
+			LogUtils.i("加载更多，所以直接从网络获取");
 			json = loadFromNet(startIndex, lastIndex);
-			if (!TextUtils.isEmpty(json)) {
-				// 3.把数据保存到本地保存到本地
-				saveToLocal(json);
-			} else {
-				// 网络出错
+		}else{
+			// 1.从本地缓存读取数据，查看缓存时间
+			json = loadFromLocal();
+			// 2.如果缓存时间过期，从网络加载
+			if (TextUtils.isEmpty(json)) {
+				
+				json = loadFromNet(startIndex, lastIndex);
+				if (!TextUtils.isEmpty(json)) {
+					// 3.把数据保存到本地保存到本地
+					saveToLocal(json);
+				} else {
+					// 网络出错
+				}
 			}
 		}
+		
 		if (!TextUtils.isEmpty(json)) {
 			T list = parseJson(json);
 			if (list != null) {
@@ -73,6 +87,8 @@ public abstract class BaseProtocol<T> {
 
 	/** 从本地加载协议 */
 	protected String loadFromLocal() {
+		
+		LogUtils.i("从缓冲加载");
 		String path = FileUtils.getCacheDir();
 		File file=null;
 		try {
@@ -107,6 +123,7 @@ public abstract class BaseProtocol<T> {
 
 	/** 从网络加载协议 */
 	protected String loadFromNet(int startIndex, int lastIndex) {
+		LogUtils.i("从网络加载");
 		String json = null;
 		String JSONDateUrl = getKey();
 		// RequestParams requestParams=new RequestParams();
@@ -118,39 +135,45 @@ public abstract class BaseProtocol<T> {
 			ResponseStream sendSync = httpUtils.sendSync(HttpMethod.GET,
 					param.getQueryStr());
 			json = sendSync.readString();
-			LogUtils.i(json + "json");
+			if(json!=null){
+				LogUtils.i(json + "json");
+				JSONObject jsonObject=new JSONObject(json);
+				String code = jsonObject.getString("code");
+				if ("0".equals(code)) {
+					LogUtils.i("网络访问数据为空");
+					return null;
+				}
+			}
 			sendSync.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return json;
-		/*
-		 * String JSONDateUrl = URLProtocol.GET_All_GOODS;
-		 * 
-		 * Log.i("ert", "getGoods:"+param.getQueryStr()); JsonObjectRequest
-		 * jsonObjectRequest = new JsonObjectRequest( Request.Method.GET,
-		 * param.getQueryStr(), null, new Response.Listener<JSONObject>() {
-		 * public void onResponse(JSONObject response) { return ""; }}, new
-		 * Response.ErrorListener() { public void onErrorResponse(
-		 * com.android.volley.VolleyError arg0) {
-		 * Fragment_Home.mHandler.sendEmptyMessage(URLProtocol.STATUS_FAILURE);
-		 * 
-		 * } }); requestQueue.add(jsonObjectRequest);
-		 */
 	}
 
 	/** 保存到本地 */
 	protected void saveToLocal(String json) {
+		
 		String path = FileUtils.getCacheDir();
 		BufferedWriter writer = null;
 		try {
-			writer = new BufferedWriter(new FileWriter(path
-					+ MD5.getMD5(getKey())));
-			long time = System.currentTimeMillis() + 1000 * 60;// 先计算出过期时间，写入第一行
-			writer.write(time + "\r\n");
+			//打开程序从网络第一次加载，所以直接覆盖缓冲文件
+			if(isFromCache){
+				writer = new BufferedWriter(new FileWriter(path
+						+ MD5.getMD5(getKey())));
+				long time = System.currentTimeMillis() + 1000 * 60;// 先计算出过期时间，写入第一行
+				writer.write(time + "\r\n");
+				
+			}
+			//加载更多从网络获取的数据，应该追加到文件末尾
+			else{
+				writer = new BufferedWriter(new FileWriter(path
+						+ MD5.getMD5(getKey()),true));
+			}
 			writer.write(json.toCharArray());
 			writer.flush();
+			
 		} catch (Exception e) {
 			LogUtils.e(e);
 		} finally {
@@ -162,6 +185,7 @@ public abstract class BaseProtocol<T> {
 	protected String getParames() {
 		return "";
 	}
+	
 
 	/** 该协议的访问地址 */
 	protected abstract String getKey();
