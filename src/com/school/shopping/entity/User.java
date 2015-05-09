@@ -14,13 +14,43 @@ public class User {
 	private String city;
 	private String deviceId;
 	
+	private String longitude;
+	private String latitude;
+	private String province;
+	
+	
+	
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
 	public User(){
 		super();
 	}
 
-	public User(int id, String uname, String password, String phone,
-			String realName, String school, String rank, String qq, int gender,
-			String city, String deviceId) {
+	
+	public User(int id, String uname, String password, String phone, String realName, String school, String rank,
+			String qq, int gender, String city, String deviceId, String longitude, String latitude, String province) {
 		super();
 		this.id = id;
 		this.uname = uname;
@@ -33,7 +63,11 @@ public class User {
 		this.gender = gender;
 		this.city = city;
 		this.deviceId = deviceId;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.province = province;
 	}
+
 	public String getDeviceId() {
 		return deviceId;
 	}
@@ -102,6 +136,13 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", uname=" + uname + ", password=" + password + ", phone=" + phone + ", realName="
+				+ realName + ", school=" + school + ", rank=" + rank + ", qq=" + qq + ", gender=" + gender + ", city="
+				+ city + ", deviceId=" + deviceId + "]";
 	}
 	
 

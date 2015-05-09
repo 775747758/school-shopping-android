@@ -94,7 +94,6 @@ public class Fragment_Me extends BaseFragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.userInfo:
 			Intent intent = new Intent(getActivity(),Activity_DetailUserInfo.class);
-			intent.putExtra("userName", user.getUname());
 			startActivity(intent);
 			break;
 		case R.id.myGoods:
@@ -133,7 +132,7 @@ public class Fragment_Me extends BaseFragment implements OnClickListener{
 		
 		myGoods=(RelativeLayout) view.findViewById(R.id.myGoods);
 		myGoods.setOnClickListener(this);
-		user=Config.getCachedUser(getActivity());
+		user=Config.getCachedUser();
 		if(user!=null){
 			name_tv.setText(user.getRealName());
 		}

@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="9"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -54,22 +54,28 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/CustomActionBarTheme">
         <!-- @style/Theme.Sherlock.Light.DarkActionBar -->
         <activity
-            android:uiOptions="splitActionBarWhenNarrow"
             android:name="com.school.shopping.WelcomeAct"
-            android:label="@string/app_name" >
-            <meta-data android:name="android.support.UI_OPTIONS"  
-                   android:value="splitActionBarWhenNarrow" />  
-
+            android:label="@string/app_name" 
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity" android:icon="@drawable/action_menu">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.school.shopping"
+                    android:path="/conversationlist" 
+                    android:scheme="rong" /> 
+            </intent-filter>
+        
+        
         </activity>
         <activity android:name=".Activity_Guide" >
         </activity>
@@ -91,9 +97,22 @@
         </activity>
         <activity android:name=".chat.Activity_Chat" >
         </activity>
+        <activity android:name=".showgoods.Activity_ShowGoods" >
+        </activity>
+        <activity android:name=".showgoods.Activity_GoodDetail" >
+        </activity>
+        <activity android:name=".me.Activity_AlterUserInfo" >
+        </activity>
+        <activity android:name=".me.Activity_AlterCity" >
+        </activity>
+         <activity android:name=".me.Activity_City" >
+        </activity>
+        <activity android:name=".me.Activity_School" >
+        </activity>
 
         <service android:name=".net.ParseJsonDataService" >
         </service>
+        
 
         <!-- 百度定位 -->
         <service

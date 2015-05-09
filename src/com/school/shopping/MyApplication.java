@@ -74,7 +74,7 @@ public class MyApplication extends Application {
 
 	private  void connectRY() {
 
-		String token = Config.getCachedToken(getApplicationContext());
+		String token = Config.getCachedToken();
 		//String token="PjeUvoPUf9pWr6RnkgnzZXq9xLh/oMx7amtlqs5tbs5dB2k5apj+lhSbsRBGT9HLiJM0xkkCeSlc1mms+SmncQ==";
 		if (token != null) {
 			// 初始化融云
@@ -162,7 +162,7 @@ public class MyApplication extends Application {
 		RequestQueue requestQueue = Volley.newRequestQueue(this);
 		String JSONDateUrl = URLProtocol.GET_TOKEN;
 		URLParam param = new URLParam(JSONDateUrl);
-		User user=Config.getCachedUser(getApplicationContext());
+		User user=Config.getCachedUser();
 		if(user!=null){
 			param.addParam("id",user.getId());
 			Log.i("ert", param.getQueryStr());
@@ -174,7 +174,7 @@ public class MyApplication extends Application {
 								if(response.getString("code").equals("1")){
 									System.out.println(response.getString(Config.KEY_TOKEN));
 									Log.i("code", response.getString(Config.KEY_TOKEN));
-									Config.cacheToken(getApplicationContext(), response.getString(Config.KEY_TOKEN));
+									Config.cacheToken(response.getString(Config.KEY_TOKEN));
 									connectRY();
 								}
 							} catch (JSONException e) {

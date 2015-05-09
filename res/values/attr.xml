@@ -6,11 +6,20 @@
     <attr name="text" format="string"></attr>
     <attr name="text_size" format="dimension"></attr>
 
+    <!-- 自定义控件：颜色渐变的图标  开始 -->
     <declare-styleable name="ChangeColorIconWithText">
         <attr name="icon_"></attr>
         <attr name="color"></attr>
         <attr name="text"></attr>
         <attr name="text_size"></attr>
     </declare-styleable>
-
+     <!-- 自定义控件：颜色渐变的图标  结束 -->
+    
+    
+     <!-- 自定义控件：圆形头像  开始 -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+	 <!-- 自定义控件：圆形头像 结束 -->
 </resources>

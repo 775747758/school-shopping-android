@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    
     <string name="app_name">school_shopping</string>
     <string name="action_search">查找</string>
     <string name="action_add">添加</string>
@@ -11,6 +12,13 @@
     <string name="tab_contact">通讯录</string>
     <string name="tab_found">发现</string>
     <string name="tab_me">我</string>
+    
+    <!-- 主界面底部导航菜单四个按钮的文字开始 -->
+     <string name="bottom_home">摆摊</string>
+     <string name="bottom_friends">关注</string>
+     <string name="bottom_chat">信息</string>
+     <string name="bottom_me">我的摊儿</string>
+      <!-- 主界面底部导航菜单四个按钮的文字结束 -->
     
      <string name="load_more">加载中...</string>
     <string name="load_error">加载失败,点击重试</string>

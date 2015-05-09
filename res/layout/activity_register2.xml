@@ -16,7 +16,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:clickable="true"
-        android:src="@drawable/portrait"
+        android:src="@drawable/portrait1"
         app:shape="circle"
         android:scaleType="centerCrop" />
 

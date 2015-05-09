@@ -4,7 +4,11 @@ package com.school.shopping.adapter;
 import java.util.List;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.school.shopping.holder.BaseHolder;
 import com.school.shopping.holder.MoreHolder;
 import com.school.shopping.manager.ThreadManager;
@@ -19,12 +23,34 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 	private MoreHolder moreHolder;
 	private boolean is_load;
 	
+	PullToRefreshListView listview=null;
+	
+	
+	public PullToRefreshListView getListview() {
+		return listview;
+	}
+	public void setListview(PullToRefreshListView listview) {
+		this.listview = listview;
+		listview.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				itemClick(position);
+			}
+
+			
+		});
+	}
+	
+	protected abstract  void itemClick(int position);
+	
 	public DefaultAdapter(List<T> data) {
 		setData(data);
 	}
 	public void setData(List<T> data) {
 		this.data = data;
-		
+		notifyDataSetChanged();
 	}
 	public List<T> getData(){
 		return data;
@@ -144,6 +170,10 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 							}
 							//更新界面
 							notifyDataSetChanged();
+							if(listview!=null){
+								listview.scrollTo(0,0);
+							}
+							
 							is_load = false;
 						}
 					

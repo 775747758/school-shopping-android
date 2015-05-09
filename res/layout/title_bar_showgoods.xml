@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="45.0dip"
+    android:background="#0DBFBE"
+    android:gravity="center_vertical" >
+
+   <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/rounded_layout_searchbackground"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp" >
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/search_gray" />
+
+            <EditText
+                android:textAppearance="?android:attr/textAppearanceSmall" 
+                android:textCursorDrawable="@null"
+                android:textColor="@color/gray"
+                android:id="@+id/search_et"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="#00000000"
+                android:hint="请输入搜索关键字"
+                android:maxLength="20"
+                android:singleLine="true" >
+            </EditText>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall" 
+            android:id="@+id/beginSearch_tv"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="0dp"
+            android:background="#00000000"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="搜索"
+            android:textColor="@drawable/selector_search_text" />
+    </RelativeLayout>
+
+</RelativeLayout>

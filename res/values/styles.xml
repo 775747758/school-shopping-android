@@ -17,6 +17,18 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     
+    
+    <!-- 自定义actionbar背景开始 -->
+    <style name="CustomActionBarTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/CustomBackground</item>
+        <item name="homeAsUpIndicator">@drawable/action_menu</item>
+    </style>
+    
+    <style name="CustomBackground" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="background">@drawable/actionbar_background</item>
+    </style>
+    <!-- 自定义actionbar背景结束 -->
+    
     <!-- 底部弹出提示（因为使用了兼容包或者是actionbar或者是使用了android5.0，暂时不能使用）-->
      <style name="Dialog" parent="android:style/Theme.Dialog">
        <item name="android:windowBackground">@color/transparent</item><!-- 背景透明 --> 

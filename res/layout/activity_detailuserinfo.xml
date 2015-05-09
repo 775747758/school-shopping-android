@@ -6,7 +6,7 @@
     android:background="#EBEBEB"
     android:orientation="vertical" >
 
-    <include layout="@layout/title_bar_detailuserinfo" />
+    <include layout="@layout/title_bar_main" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,7 +27,6 @@
                 android:orientation="vertical" >
 
                 <RelativeLayout
-                    android:onClick="protrait"
                     android:id="@+id/protrait_l"
                     android:clickable="true"
                     android:layout_width="match_parent"
@@ -67,7 +66,6 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
-                    android:onClick="name"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -103,7 +101,6 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
-                    android:onClick="gender"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -137,10 +134,44 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="#EEEEEE" />
+                
+                <LinearLayout
+                    android:clickable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/selector__churchinfo_item"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:gravity="center"
+                        android:text="地区"
+                        android:textColor="#000000"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/city_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="15dp"
+                        android:gravity="right"
+                        android:textColor="#ACADAC"
+                        android:textSize="18dp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#EEEEEE" />
 
                 <LinearLayout
-                    android:onClick="qq"
-                    android:id="@+id/type_l"
+                    android:id="@+id/ll_qq"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -176,7 +207,7 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
-                    android:onClick="phone"
+                    android:id="@+id/ll_phone"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -212,7 +243,7 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
-                    android:onClick="school"
+                    android:id="@+id/ll_school"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -270,7 +301,6 @@
             </LinearLayout>
 
             <!-- <Button
-                android:onClick="join"
                 android:id="@+id/join_bt"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"

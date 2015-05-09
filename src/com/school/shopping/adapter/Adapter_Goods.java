@@ -29,14 +29,20 @@ public class Adapter_Goods extends DefaultAdapter<Good> {
 	@Override
 	protected List onLoadMore() {
 		HomeProtocal protocal=new HomeProtocal();
-		if(goods==null){
+		/*if(goods==null){
 			LogUtils.i("旧数据为空，所以加载0--20");
 			return protocal.load(0, 20,false);
 		}
 		else{
 			LogUtils.i("加载"+goods.size()+"---"+(goods.size()+20));
 			return protocal.load(goods.size(), goods.size()+20,false);
-		}
+		}*/
+		return null;
+	}
+	@Override
+	protected void itemClick(int position) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

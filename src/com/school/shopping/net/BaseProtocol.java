@@ -34,6 +34,7 @@ import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.MD5;
 import com.school.shopping.utils.StringUtils;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.vo.GoodVo;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,19 +48,18 @@ public abstract class BaseProtocol<T> {
 	private RequestQueue requestQueue;
 	
 	private boolean isFromCache;
+	private String url;
 	/** 加载协议 
 	 * @param isFromCache */
 	public T load(int startIndex, int lastIndex, boolean isFromCache) {
 		
 		this.isFromCache=isFromCache;
-		
-		SystemClock.sleep(1000);// 休息1秒，防止加载过快，看不到界面变化效果
-		
 		String json = null;
 		//如果是加载更多直接从网络获取
 		if(!isFromCache){
-			LogUtils.i("加载更多，所以直接从网络获取");
+			LogUtils.i("BaseProtocal：：加载更多，所以直接从网络获取");
 			json = loadFromNet(startIndex, lastIndex);
+			LogUtils.i("BaseProtocal：：json"+json);
 		}else{
 			// 1.从本地缓存读取数据，查看缓存时间
 			json = loadFromLocal();
@@ -88,7 +88,7 @@ public abstract class BaseProtocol<T> {
 	/** 从本地加载协议 */
 	protected String loadFromLocal() {
 		
-		LogUtils.i("从缓冲加载");
+		LogUtils.i("BaseProtocal：：从缓冲加载");
 		String path = FileUtils.getCacheDir();
 		File file=null;
 		try {
@@ -98,57 +98,87 @@ public abstract class BaseProtocol<T> {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new FileReader(file));
-			String line = reader.readLine();// 第一行是时间
-			Long time = Long.valueOf(line);
-			if (time > System.currentTimeMillis()) {// 如果时间未过期
-				StringBuilder sb = new StringBuilder();
-				String result;
-				while ((result = reader.readLine()) != null) {
-					sb.append(result);
-				}
-				return sb.toString();
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			LogUtils.e(e);
-			return null;
-		} finally {
-			IOUtils.close(reader);
-		}
-	}
-
-	/** 从网络加载协议 */
-	protected String loadFromNet(int startIndex, int lastIndex) {
-		LogUtils.i("从网络加载");
-		String json = null;
-		String JSONDateUrl = getKey();
-		// RequestParams requestParams=new RequestParams();
-		URLParam param = new URLParam(JSONDateUrl);
-		param.addParam("startIndex", startIndex);// 读取数据的开始位置
-		param.addParam("lastIndex", lastIndex);// 读取数据的最末位置
-		HttpUtils httpUtils = new HttpUtils();
-		try {
-			ResponseStream sendSync = httpUtils.sendSync(HttpMethod.GET,
-					param.getQueryStr());
-			json = sendSync.readString();
-			if(json!=null){
-				LogUtils.i(json + "json");
-				JSONObject jsonObject=new JSONObject(json);
-				String code = jsonObject.getString("code");
-				if ("0".equals(code)) {
-					LogUtils.i("网络访问数据为空");
+		if(file.exists()){
+			BufferedReader reader = null;
+			try {
+				reader = new BufferedReader(new FileReader(file));
+				String line = reader.readLine();// 第一行是时间
+				Long time = Long.valueOf(line);
+				if (time > System.currentTimeMillis()) {// 如果时间未过期
+					StringBuilder sb = new StringBuilder();
+					String result;
+					while ((result = reader.readLine()) != null) {
+						sb.append(result);
+					}
+					return sb.toString();
+				} else {
 					return null;
 				}
+			} catch (Exception e) {
+				LogUtils.e(e);
+				return null;
+			} finally {
+				IOUtils.close(reader);
 			}
-			sendSync.close();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		else{
+			return null;
+		}
+		
+	}
+
+	/** 从网络加载协议 
+	 * @param lastIndex 
+	 * @param startIndex */
+	protected String loadFromNet(int startIndex, int lastIndex) {
+		LogUtils.i("BaseProtocal：：从网络加载");
+		String json = null;
+		String JSONDateUrl = getKey();
+		if(url!=null){
+			URLParam param = new URLParam(url);
+			if(startIndex!=-1&&lastIndex!=-1){
+				param.addParam("startIndex", startIndex);// 读取数据的开始位置
+				param.addParam("lastIndex", lastIndex);// 读取数据的最末位置
+			}
+			LogUtils.i("BaseProtocal：：连接：："+param.getQueryStr());
+			HttpUtils httpUtils = new HttpUtils();
+			try {
+				ResponseStream sendSync = httpUtils.sendSync(HttpMethod.GET,
+						param.getQueryStr());
+				json = sendSync.readString();
+				if(json!=null){
+					LogUtils.i(json + "json");
+					JSONObject jsonObject=new JSONObject(json);
+					if(JSONDateUrl.equals(URLProtocol.GET_UNIVERSITY)){
+						//专门为查找学校设计， 
+						int status = jsonObject.getInt("status");
+						if(status==0){
+							return json;
+						}
+						else{
+							return null;
+						}
+					}
+					
+					String code = jsonObject.getString("code");
+					//LogUtils.i("code:::::"+code);
+					if(!StringUtils.isEmpty(code)){
+						LogUtils.i("BaseProtocal：：codebu为空");
+						if ("0".equals(code)) {
+							LogUtils.i("BaseProtocal：：网络访问数据为空");
+							return null;
+						}
+					}
+					
+				}
+				sendSync.close();
+			} catch (Exception e) {
+				LogUtils.i("code:::::"+"cuowu");
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
 		return json;
 	}
 
@@ -195,4 +225,8 @@ public abstract class BaseProtocol<T> {
 	 * 解析json
 	 */
 	protected abstract T parseJson(String json);
+	
+	public void setUrl(String url){
+		this.url=url;
+	}
 }

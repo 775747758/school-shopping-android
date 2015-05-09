@@ -7,8 +7,10 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.school.shopping.chat.Activity_Chat;
 import com.school.shopping.login.Activity_Login;
+import com.school.shopping.manager.ThreadManager;
+import com.school.shopping.showgoods.Activity_ShowGoods;
+import com.school.shopping.utils.FileUtils;
 
 
 public class WelcomeAct extends Activity {
@@ -24,7 +26,7 @@ public class WelcomeAct extends Activity {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case GO_HOME:
-				token=Config.getCachedToken(getApplicationContext());
+				token=Config.getCachedToken();
 				if(token!=null){
 					goHome();
 				}
@@ -59,12 +61,21 @@ public class WelcomeAct extends Activity {
 			Editor editor = perPreferences.edit();
 			editor.putBoolean("isFirstIn", false);
 			editor.commit();
+			
+			ThreadManager.getShortPool().execute(new Runnable() {
+				@Override
+				public void run() {
+					FileUtils.copyFileFromAssets("city.db");
+					
+				}
+			});
 		}
 		
 	}
 	
 	private void goHome(){
 		Intent i = new Intent(WelcomeAct.this,MainActivity.class);
+		//Intent i = new Intent(WelcomeAct.this,Activity_ShowGoods.class);
 		i.putExtra(Config.KEY_TOKEN, token);
 		startActivity(i);
 		finish();

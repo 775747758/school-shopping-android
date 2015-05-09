@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -17,6 +17,7 @@
         android:orientation="vertical" >
 
         <com.meg7.widget.CustomShapeImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:clickable="true"
             android:onClick="login"
             android:id="@+id/portrait"
@@ -150,7 +151,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="60dp"
-                android:text="我的摊位"
+                android:text="我的收藏"
                 android:textColor="#333750"
                 android:textSize="20dp" />
 
@@ -189,7 +190,7 @@
                 android:layout_height="fill_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="60dp"
-                android:text="我的收藏"
+                android:text="设置"
                 android:textColor="#333750"
                 android:textSize="20dp" />
 

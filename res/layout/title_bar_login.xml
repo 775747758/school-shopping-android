@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="0dp"
-        android:background="@drawable/selector_titlebar_name"
+        android:background="@drawable/selector_titlebar_left"
         android:clickable="true"
         android:gravity="center"
         android:onClick="back" >

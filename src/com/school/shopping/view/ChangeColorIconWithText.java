@@ -24,7 +24,7 @@ import android.view.View;
 public class ChangeColorIconWithText extends View
 {
 
-	private int mColor = 0xFF45C01A;
+	private int mColor = 0xAD2623;
 	private Bitmap mIconBitmap;
 	private String mText = "微信";
 	private int mTextSize = (int) TypedValue.applyDimension(

@@ -72,9 +72,9 @@ public class UploadUtil {
 						json=new JSONObject(response);
 						if("1".equals(json.getString("code"))){
 							if("Activity_Register2".equals(activity)){
-								Config.cacheToken(context,json.getString(Config.KEY_TOKEN));
-								User user=new User(json.getInt("uid"), uname, password, phone, name, school, "0", qq, gender, city, DeviceInfo.getUniqueID());
-								Config.cacheUser(context, user);
+								Config.cacheToken(json.getString(Config.KEY_TOKEN));
+								User user=new User(json.getInt("uid"), uname, password, phone, name, school, "0", qq, gender, city, DeviceInfo.getUniqueID(),"","","");
+								Config.cacheUser( user);
 								Activity_Register2.mHandler.sendEmptyMessage(URLProtocol.STATUS_SUCCESS);
 							}
 							else if("Activity_AddGoods".equals(activity)){

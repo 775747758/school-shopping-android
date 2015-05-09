@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/iv_goodpic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="45dp"
+        android:layout_marginTop="45dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/close" />
+    
+
+    
+    <RelativeLayout 
+         android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:background="@drawable/shape_gradient"
+        
+        >
+        
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true" 
+            android:text="￥290"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            />
+        
+         <TextView
+             android:layout_marginRight="40dp"
+            android:id="@+id/tv_introduction"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="10dp"
+            android:textColor="#FFFFFF"
+            android:padding="5dp"
+            android:layout_above="@id/tv_price"
+            android:maxLines="3"
+            android:ellipsize="end"  
+            android:text="宝贝详情：  灼灼日光，炎热盛夏，更需要一款丝柔轻薄真丝连衣裙，让我们的身体能舒畅地呼吸。独一无二 绝不撞衫！ 精选顶级进口真丝面料，100%真丝！ 国际一线高端品牌同步制作工艺，专柜上万元真丝连衣裙品质，小细节彰显大品质！不定时上调价格，喜欢的亲们抓紧时间下手，最新一批预售中。"
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            />
+         
+          <TextView
+            android:layout_marginRight="40dp"
+            android:id="@+id/tv_isAdjust"
+            android:layout_marginLeft="10dp"
+            android:textSize="10dp"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:layout_above="@id/tv_introduction"
+            android:maxLines="3"
+            android:ellipsize="end"  
+            android:text="可以小刀"
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            />
+          
+          <TextView
+            android:layout_marginRight="40dp"
+            android:id="@+id/tv_newLevel"
+            android:layout_marginLeft="10dp"
+            android:textSize="10dp"
+            android:textColor="#FFFFFF"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:layout_above="@id/tv_isAdjust"
+            android:maxLines="3"
+            android:ellipsize="end"  
+            android:text="九成新"
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            />
+          
+          <TextView
+            android:id="@+id/tv_goodName"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:textColor="#FFFFFF"
+            android:padding="5dp"
+            android:layout_above="@id/tv_newLevel"
+            android:ems="12"
+            android:ellipsize="end"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            />
+        
+    </RelativeLayout>
+
+    <include layout="@layout/title_bar_gooddetail" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45.0dip"
+        android:layout_alignParentBottom="true"
+        android:background="#000000"
+        android:gravity="center_vertical" >
+
+        <ImageView
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_chat"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/selector_gooddetail_chat" />
+        
+        <com.meg7.widget.CustomShapeImageView
+            android:id="@+id/portrait"
+            android:layout_width="45dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingRight="15dp"
+            android:src="@drawable/selector_gooddetail_chat" />
+    </RelativeLayout>
+
+</RelativeLayout>

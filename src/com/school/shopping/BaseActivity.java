@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
-public class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends Activity {
+	
+	private static Activity runActivity;
 	
 	List<BaseActivity> mActivity=new LinkedList<BaseActivity>();
 	@Override
@@ -21,6 +24,26 @@ public class BaseActivity extends ActionBarActivity {
 		initView();
 		initActionBar();
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		runActivity=this;
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		runActivity=null;
+	}
+	public static Activity getRunActivity() {
+		return runActivity;
+	}
+
+	public void setRunActivity(Activity runActivity) {
+		this.runActivity = runActivity;
+	}
+
 	//把所有activity finish掉
 	public void exitApp(){
 		List<BaseActivity> copy;
@@ -47,14 +70,8 @@ public class BaseActivity extends ActionBarActivity {
 		
 	}
 
-	protected void initView() {
-		// TODO Auto-generated method stub
-		
-	}
+	protected abstract void initView();
 
-	protected void init() {
-		// TODO Auto-generated method stub
-		
-	}
+	protected abstract void init();
 
 }

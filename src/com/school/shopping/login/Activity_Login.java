@@ -138,8 +138,8 @@ public class Activity_Login extends Activity {
 						try {
 							if("1".equals(response.getString("code")))
 							{
-								Config.cacheToken(getApplicationContext(), response.getString(Config.KEY_TOKEN));
-								Config.cacheUser(getApplicationContext(), user);
+								Config.cacheToken( response.getString(Config.KEY_TOKEN));
+								Config.cacheUser(user);
 								Intent intent = new Intent(Activity_Login.this,
 										MainActivity.class);
 								startActivity(intent);

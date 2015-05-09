@@ -38,7 +38,7 @@ public class Activity_MyGoods extends Activity{
 		setContentView(R.layout.activity_mygoods);
 		myGoodsLV=(PullToRefreshListView)findViewById(R.id.myGoods_lv);
 		myApp = (MyApplication)getApplication();  //获得自定义的应用程序MyApp 
-		User user=Config.getCachedUser(getApplicationContext());
+		User user=Config.getCachedUser();
 		getJSONVolley(user.getId());
 	}
 	
@@ -61,9 +61,9 @@ public class Activity_MyGoods extends Activity{
 									Good good=new Good();
 									good.setGoodName(jso.getString("goodName"));
 									good.setPrice(jso.getString("price"));
-									good.setType(jso.getString("type"));
+									good.setType(jso.getInt("type"));
 									good.setIsAdjust(jso.getInt("isAdjust"));
-									good.setNewLevel(jso.getString("newLevel"));
+									good.setNewLevel(jso.getInt("newLevel"));
 									good.setIntroduction(jso.getString("introduction"));
 									good.setUid(jso.getInt("uid"));
 									good.setId(jso.getInt("id"));

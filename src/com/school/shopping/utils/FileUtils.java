@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-
 public class FileUtils {
 
-	//SD卡上的根目录名字
+	// SD卡上的根目录名字
 	public static final String ROOT_DIR = "SchoolShopping";
 	public static final String DOWNLOAD_DIR = "download";
 	public static final String CACHE_DIR = "cache";
@@ -121,6 +120,7 @@ public class FileUtils {
 			IOUtils.close(in);
 		}
 		return true;
+
 	}
 
 	/** 判断文件是否可写 */
@@ -150,9 +150,13 @@ public class FileUtils {
 
 	/**
 	 * 把数据写入文件
-	 * @param is       数据流
-	 * @param path     文件路径
-	 * @param recreate 如果文件存在，是否需要删除重建
+	 * 
+	 * @param is
+	 *            数据流
+	 * @param path
+	 *            文件路径
+	 * @param recreate
+	 *            如果文件存在，是否需要删除重建
 	 * @return 是否写入成功
 	 */
 	public static boolean writeFile(InputStream is, String path, boolean recreate) {
@@ -185,9 +189,13 @@ public class FileUtils {
 
 	/**
 	 * 把字符串数据写入文件
-	 * @param content 需要写入的字符串
-	 * @param path    文件路径名称
-	 * @param append  是否以添加的模式写入
+	 * 
+	 * @param content
+	 *            需要写入的字符串
+	 * @param path
+	 *            文件路径名称
+	 * @param append
+	 *            是否以添加的模式写入
 	 * @return 是否写入成功
 	 */
 	public static boolean writeFile(byte[] content, String path, boolean append) {
@@ -219,9 +227,13 @@ public class FileUtils {
 
 	/**
 	 * 把字符串数据写入文件
-	 * @param content 需要写入的字符串
-	 * @param path    文件路径名称
-	 * @param append  是否以添加的模式写入
+	 * 
+	 * @param content
+	 *            需要写入的字符串
+	 * @param path
+	 *            文件路径名称
+	 * @param append
+	 *            是否以添加的模式写入
 	 * @return 是否写入成功
 	 */
 	public static boolean writeFile(String content, String path, boolean append) {
@@ -230,10 +242,15 @@ public class FileUtils {
 
 	/**
 	 * 把键值对写入文件
-	 * @param filePath 文件路径
-	 * @param key      键
-	 * @param value    值
-	 * @param comment  该键值对的注释
+	 * 
+	 * @param filePath
+	 *            文件路径
+	 * @param key
+	 *            键
+	 * @param value
+	 *            值
+	 * @param comment
+	 *            该键值对的注释
 	 */
 	public static void writeProperties(String filePath, String key, String value, String comment) {
 		if (StringUtils.isEmpty(key) || StringUtils.isEmpty(filePath)) {
@@ -313,7 +330,7 @@ public class FileUtils {
 	}
 
 	/** 把字符串键值对的文件读入map */
-	@SuppressWarnings({"rawtypes", "unchecked"})
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map<String, String> readMap(String filePath, String defaultValue) {
 		if (StringUtils.isEmpty(filePath)) {
 			return null;
@@ -366,5 +383,26 @@ public class FileUtils {
 			file.delete();
 		}
 		return true;
+	}
+
+	public static void copyFileFromAssets(String fileName) {
+		File file = new File("/data/data/com.school.shopping/databases/"+fileName);
+		File dir = new File("/data/data/com.school.shopping/databases");
+		if (!dir.exists()) {
+			dir.mkdir();
+		};
+		try {
+			InputStream in = UIUtils.getContext().getResources().getAssets().open(fileName);
+			FileOutputStream fos = new FileOutputStream(file);
+			int count = 0;
+			byte[] buffer = new byte[1024]; // 创建byte数组
+			while ((count = in.read(buffer)) > 0) {
+				fos.write(buffer);
+			}
+			in.close();
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

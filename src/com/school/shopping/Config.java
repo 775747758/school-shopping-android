@@ -1,6 +1,7 @@
 package com.school.shopping;
 
 import com.school.shopping.entity.User;
+import com.school.shopping.utils.UIUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -20,20 +21,22 @@ public class Config {
 	private static final String KEY_ID = "id";
 	private static final String AUTO_LOGIN = "auto_login";
 	private static final String SAVE_PW = "save_pw";
+	
+	private static final Context context = UIUtils.getContext();
 
-	public static String getCachedToken(Context context) {
+	public static String getCachedToken() {
 		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
 				.getString(KEY_TOKEN, null);
 	}
 
-	public static void cacheToken(Context context, String token) {
+	public static void cacheToken(String token) {
 		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
 				.edit();
 		e.putString(KEY_TOKEN, token);
 		e.commit();
 	}
 
-	public static void cacheUser(Context context, User user) {
+	public static void cacheUser(User user) {
 		Editor e = context
 				.getSharedPreferences(USER_INFO, Context.MODE_PRIVATE).edit();
 		e.putInt("id", user.getId());
@@ -49,7 +52,7 @@ public class Config {
 		e.commit();
 	}
 
-	public static User getCachedUser(Context context) {
+	public static User getCachedUser() {
 		User user = new User();
 		SharedPreferences sp = context.getSharedPreferences(USER_INFO,
 				Context.MODE_PRIVATE);
@@ -70,7 +73,7 @@ public class Config {
 	}
 
 	// 保存用户名
-	public static void saveUname(Context context, String uname) {
+	public static void saveUname(String uname) {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		Editor editor = myPreferences.edit();
@@ -79,7 +82,7 @@ public class Config {
 	}
 
 	// 读取用户名
-	public static String getUname(Context context) {
+	public static String getUname() {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		String bName = myPreferences.getString(USERNAME, "");
@@ -87,7 +90,7 @@ public class Config {
 	}
 
 	// 保存密码
-	public static void savePW(Context context, String pw) {
+	public static void savePW(String pw) {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		Editor editor = myPreferences.edit();
@@ -96,7 +99,7 @@ public class Config {
 	}
 
 	// 读取密码
-	public static String getPW(Context context) {
+	public static String getPW() {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		String bpw = myPreferences.getString(PASSWORD, "");
@@ -104,7 +107,7 @@ public class Config {
 	}
 
 	// 保存用户ID
-	public static void saveUID(Context context, int uid) {
+	public static void saveUID(int uid) {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		Editor editor = myPreferences.edit();
@@ -113,14 +116,14 @@ public class Config {
 	}
 
 	// 读取密码
-	public static int getUID(Context context) {
+	public static int getUID() {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		return myPreferences.getInt(KEY_ID, -1);
 	}
 
 	// 设置自动登录
-	public static void setAutoLogin(Context context, boolean autoLogin) {
+	public static void setAutoLogin(boolean autoLogin) {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		Editor editor = myPreferences.edit();
@@ -129,14 +132,14 @@ public class Config {
 	}
 
 	// 读取自动登录
-	public static boolean getAutoLogin(Context context) {
+	public static boolean getAutoLogin() {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		return myPreferences.getBoolean(AUTO_LOGIN, true);
 	}
 
 	// 设置记住密码
-	public static void setSavePW(Context context, boolean save_pw) {
+	public static void setSavePW(boolean save_pw) {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		Editor editor = myPreferences.edit();
@@ -145,13 +148,13 @@ public class Config {
 	}
 
 	// 读取记住密码
-	public static boolean getSavePW(Context context) {
+	public static boolean getSavePW() {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		return myPreferences.getBoolean(SAVE_PW, true);
 	}
 	
-	public static void remoceCache(Context context){
+	public static void remoceCache(){
 		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
 				.edit();
 		e.putString(KEY_TOKEN, null);

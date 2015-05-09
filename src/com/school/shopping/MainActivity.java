@@ -1,5 +1,7 @@
 package com.school.shopping;
 
+import io.rong.imkit.fragment.ConversationListFragment;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -14,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.school.shopping.fragment.BaseFragment;
 import com.school.shopping.fragment.FragmentFactory;
+import com.school.shopping.fragment.Fragment_Friends;
 import com.school.shopping.fragment.Fragment_Home;
 import com.school.shopping.fragment.Fragment_Me;
 import com.school.shopping.fragment.TabFragment;
@@ -21,18 +24,21 @@ import com.school.shopping.login.Activity_Login;
 import com.school.shopping.login.Activity_Register3;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
+import com.school.shopping.utils.ActionBarUtils;
 import com.school.shopping.utils.DeviceInfo;
 import com.school.shopping.view.ChangeColorIconWithText;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -42,13 +48,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.Window;
 
-public class MainActivity extends ActionBarActivity implements OnClickListener,OnPageChangeListener{
+public class MainActivity extends FragmentActivity implements OnClickListener,OnPageChangeListener{
 
 	private ViewPager mViewPager;
 	private List<Fragment> mTabs = new ArrayList<Fragment>();
-	private String[] mTitles = new String[]
-	{ "First Fragment !", "Second Fragment !"};
-	private FragmentPagerAdapter mAdapter;
+	private FragmentStatePagerAdapter mAdapter;
 	private boolean isFirstShow=false;
 
 	private List<ChangeColorIconWithText> mTabIndicators = new ArrayList<ChangeColorIconWithText>();
@@ -57,12 +61,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		setOverflowButtonAlways();
-		//getActionBar().setDisplayShowHomeEnabled(false);
-		
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);//显示向左方向的返回键
-		
-		
 		initView();
 		initDatas();
 		mViewPager.setAdapter(mAdapter);
@@ -70,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 		initEvent();
 		
 		checkLoginState();
+		
 		
 	}
 	
@@ -80,12 +79,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 		};
 	};
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		
-		getMenuInflater().inflate(R.menu.main, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -100,54 +93,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 		return super.onOptionsItemSelected(item);
 	}
 	
-	private void setOverflowButtonAlways()
-	{
-		try
-		{
-			ViewConfiguration config = ViewConfiguration.get(this);
-			Field menuKey = ViewConfiguration.class
-					.getDeclaredField("sHasPermanentMenuKey");
-			menuKey.setAccessible(true);
-			menuKey.setBoolean(config, false);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	
-	
-	
-	/**
-	 * 设置menu显示icon
-	 */
-	@Override
-	public boolean onMenuOpened(int featureId, Menu menu)
-	{
-
-		if (featureId == Window.FEATURE_ACTION_BAR && menu != null)
-		{
-			if (menu.getClass().getSimpleName().equals("MenuBuilder"))
-			{
-				try
-				{
-					Method m = menu.getClass().getDeclaredMethod(
-							"setOptionalIconsVisible", Boolean.TYPE);
-					m.setAccessible(true);
-					m.invoke(menu, true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return super.onMenuOpened(featureId, menu);
-	}
-	
-	/**
-	 * 鍒濆鍖栨墍鏈変簨浠�
-	 */
 	private void initEvent()
 	{
 
@@ -159,19 +104,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 	{
 		Fragment_Home showGoods=new Fragment_Home();
 		mTabs.add(showGoods);
-		for (String title : mTitles)
-		{
-			TabFragment tabFragment = new TabFragment();
-			Bundle bundle = new Bundle();
-			bundle.putString(TabFragment.TITLE, title);
-			tabFragment.setArguments(bundle);
-			mTabs.add(tabFragment);
-		}
+		mTabs.add(new Fragment_Friends());
+		mTabs.add(new ConversationListFragment());
 		Fragment_Me fraMe=new Fragment_Me();
 		mTabs.add(fraMe);
 		
-
-		mAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
+		mAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager())
 		{
 
 			//isFirstShow=false;
@@ -297,12 +235,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 	}
 	
 	private void checkLoginState() {
-		if(Config.getCachedToken(getApplicationContext())!=null){
+		if(Config.getCachedToken()!=null){
 			RequestQueue requestQueue = Volley.newRequestQueue(this);
 			String JSONDateUrl = URLProtocol.CHECK_LOGIN_STATE;
 			URLParam param = new URLParam(JSONDateUrl);
 			try {
-				param.addParam("id", Config.getUID(getApplicationContext()));
+				param.addParam("id", Config.getUID());
 				param.addParam("deviceId", DeviceInfo.getUniqueID());
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -334,7 +272,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener,O
 
 	
 	public void exist(){
-		Config.remoceCache(getApplicationContext());
+		Config.remoceCache();
 		Intent intent = new Intent(MainActivity.this,
 				Activity_Login.class);
 		intent.putExtra("isNotice", true);

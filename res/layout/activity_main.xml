@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    
+    <include layout="@layout/title_bar_main" />
 
      <android.support.v4.view.ViewPager
         android:id="@+id/id_viewpager"
@@ -25,9 +27,9 @@
             android:layout_weight="1"
             android:padding="5dp"
             hyman:icon_="@drawable/ic_menu_start_conversation"
-            hyman:text="@string/app_name"
+            hyman:text="@string/bottom_home"
             hyman:text_size="12sp"
-            hyman:color="#ff45c01a" />
+            hyman:color="#AE2623" />
 
         <com.school.shopping.view.ChangeColorIconWithText
             android:id="@+id/id_indicator_two"
@@ -35,8 +37,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            hyman:icon_="@drawable/ic_menu_friendslist"
-            hyman:text="@string/tab_contact"
+            hyman:icon_="@drawable/bottom_friends"
+            hyman:text="@string/bottom_friends"
             hyman:text_size="12sp"
             hyman:color="#ff45c01a" />
 
@@ -46,8 +48,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            hyman:icon_="@drawable/ic_menu_emoticons"
-            hyman:text="@string/tab_found"
+            hyman:icon_="@drawable/bottom_chat"
+            hyman:text="@string/bottom_chat"
             hyman:text_size="12sp"
             hyman:color="#ff45c01a" />
 
@@ -57,8 +59,8 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:padding="5dp"
-            hyman:icon_="@drawable/ic_menu_allfriends"
-            hyman:text="@string/tab_me"
+            hyman:icon_="@drawable/bottom_me"
+            hyman:text="@string/bottom_me"
             hyman:text_size="12sp"
             hyman:color="#ff45c01a" />
     </LinearLayout>

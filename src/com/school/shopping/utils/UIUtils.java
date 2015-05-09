@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
@@ -12,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.school.shopping.BaseActivity;
 import com.school.shopping.MyApplication;
 
 public class UIUtils {
@@ -95,4 +98,31 @@ public class UIUtils {
 		public static Handler getHandler() {
 			return MyApplication.getMainThreadHandler();
 		}
+		
+		public static void startActivity(Intent intent){
+			Activity activity = BaseActivity.getRunActivity();
+			if(activity != null){
+				activity.startActivity(intent);
+			}
+			//在非activity跳转
+			else{
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				getContext().startActivity(intent);
+			}
+		}
+		
+		/** dip转换px */
+		public static int dip2px(int dip) {
+			final float scale = getContext().getResources().getDisplayMetrics().density;
+			return (int) (dip * scale + 0.5f);
+		}
+
+		/** pxz转换dip */
+		public static int px2dip(int px) {
+			final float scale = getContext().getResources().getDisplayMetrics().density;
+			return (int) (px / scale + 0.5f);
+		}
+		
+		
+
 }
