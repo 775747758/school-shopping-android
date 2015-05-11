@@ -22,7 +22,6 @@ public class CompressPicture {
 		newOpts.inJustDecodeBounds = false;
 		int w = newOpts.outWidth;
 		int h = newOpts.outHeight;
-		//���������ֻ�Ƚ϶���800*480�ֱ��ʣ����ԸߺͿ���������Ϊ
 		float hh = 100f;//�������ø߶�Ϊ800f
 		float ww = 100f;//�������ÿ��Ϊ480f
 		//���űȡ������ǹ̶��������ţ�ֻ�ø߻��߿�����һ����ݽ��м��㼴��
@@ -46,8 +45,8 @@ public class CompressPicture {
 		try {
 			b=new FileOutputStream(file);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			image.compress(Bitmap.CompressFormat.JPEG, 80, b);//����ѹ������������100��ʾ��ѹ������ѹ�������ݴ�ŵ�baos��
-			int options = 80;
+			image.compress(Bitmap.CompressFormat.JPEG, 90, b);//����ѹ������������100��ʾ��ѹ������ѹ�������ݴ�ŵ�baos��
+			int options = 90;
 			/*while ( baos.toByteArray().length / 1024>100) {	//ѭ���ж����ѹ����ͼƬ�Ƿ����100kb,���ڼ���ѹ��		
 				b.reset();//����baos�����baos
 				image.compress(Bitmap.CompressFormat.JPEG, options, b);//����ѹ��options%����ѹ�������ݴ�ŵ�baos��

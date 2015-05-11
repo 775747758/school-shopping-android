@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DFDEDA"
+    android:background="#FBE9E7"
     android:orientation="vertical" >
 
     <include layout="@layout/title_bar_login" />
@@ -28,12 +28,15 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#FFFFFF"
+        android:maxLength="10"
+        android:singleLine="true"
         android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:gravity="center_vertical"
         android:textColor="@color/hinttextcolor"
         android:textSize="18dp" />
      
      <TextView 
+         android:typeface="serif"
         android:text="密码"
          android:textColor="#8C8984"
         android:textColorHint="#FFFFFF"
@@ -45,6 +48,8 @@
         />
      
      <EditText
+         android:maxLength="10"
+        android:singleLine="true"
          android:inputType="textPassword"
          android:paddingLeft="20dp"
          android:textCursorDrawable="@drawable/cursor"

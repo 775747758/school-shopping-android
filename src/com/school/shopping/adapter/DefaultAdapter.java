@@ -30,6 +30,7 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 		return listview;
 	}
 	public void setListview(PullToRefreshListView listview) {
+		LogUtils.i("设置了点击事件");
 		this.listview = listview;
 		listview.setOnItemClickListener(new OnItemClickListener() {
 

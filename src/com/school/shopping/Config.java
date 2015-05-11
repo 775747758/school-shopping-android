@@ -1,6 +1,11 @@
 package com.school.shopping;
 
+import java.io.File;
+import java.security.NoSuchAlgorithmException;
+
 import com.school.shopping.entity.User;
+import com.school.shopping.utils.FileUtils;
+import com.school.shopping.utils.MD5;
 import com.school.shopping.utils.UIUtils;
 
 import android.content.Context;
@@ -16,13 +21,15 @@ public class Config {
 	
 
 	public static final String KEY_TOKEN = "token";
-	private static final String USERNAME = "uname";
-	private static final String PASSWORD = "password";
-	private static final String KEY_ID = "id";
-	private static final String AUTO_LOGIN = "auto_login";
-	private static final String SAVE_PW = "save_pw";
+	public static final String USERNAME = "uname";
+	public static final String PASSWORD = "password";
+	public static final String KEY_ID = "id";
+	public static final String AUTO_LOGIN = "auto_login";
+	public static final String SAVE_PW = "save_pw";
 	
-	private static final Context context = UIUtils.getContext();
+	public static final String NET_ERROR = "net_error";
+	
+	public static final Context context = UIUtils.getContext();
 
 	public static String getCachedToken() {
 		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
@@ -154,12 +161,30 @@ public class Config {
 		return myPreferences.getBoolean(SAVE_PW, true);
 	}
 	
-	public static void remoceCache(){
+	public static void removeCache(String cacheName){
 		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
 				.edit();
-		e.putString(KEY_TOKEN, null);
+		e.putString(cacheName, null);
 		e.commit();
-		
+	}
+	
+	public static void removeSDCache(String cacheName){
+		File file;
+		try {
+			file = new File(FileUtils.getCacheDir()+MD5.getMD5(cacheName));
+			if(FileUtils.isSDCardAvailable()){
+				if(file.exists()){
+					if(file.isFile()){
+						file.delete();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
+	
+	
+
 }

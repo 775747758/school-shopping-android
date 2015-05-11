@@ -25,6 +25,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseStream;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.school.shopping.Config;
 import com.school.shopping.entity.Good;
 import com.school.shopping.fragment.Fragment_Home;
 import com.school.shopping.manager.ThreadManager;
@@ -49,6 +50,14 @@ public abstract class BaseProtocol<T> {
 	
 	private boolean isFromCache;
 	private String url;
+	
+	private boolean isNetError=false;
+	
+	
+	public boolean isNetError() {
+		return isNetError;
+	}
+
 	/** 加载协议 
 	 * @param isFromCache */
 	public T load(int startIndex, int lastIndex, boolean isFromCache) {
@@ -94,7 +103,7 @@ public abstract class BaseProtocol<T> {
 		try {
 			file = new File(path
 					+ MD5.getMD5(getKey()));
-		} catch (NoSuchAlgorithmException e1) {
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -142,8 +151,10 @@ public abstract class BaseProtocol<T> {
 			}
 			LogUtils.i("BaseProtocal：：连接：："+param.getQueryStr());
 			HttpUtils httpUtils = new HttpUtils();
+			httpUtils.configCurrentHttpCacheExpiry(0);
+			httpUtils.configSoTimeout(1000*10);
 			try {
-				ResponseStream sendSync = httpUtils.sendSync(HttpMethod.GET,
+				ResponseStream sendSync = httpUtils.sendSync(HttpMethod.POST,
 						param.getQueryStr());
 				json = sendSync.readString();
 				if(json!=null){
@@ -175,6 +186,7 @@ public abstract class BaseProtocol<T> {
 			} catch (Exception e) {
 				LogUtils.i("code:::::"+"cuowu");
 				e.printStackTrace();
+				isNetError=true;
 				return null;
 			}
 		}

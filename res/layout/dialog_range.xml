@@ -5,9 +5,10 @@
     android:orientation="vertical" >
     
     <TextView 
+        android:id="@+id/tv_title"
         android:background="#FFFFFF"
         android:gravity="center"
-            android:text="搜索范围"
+            android:text="宝贝类型"
             android:textColor="#979797"
             android:textSize="20dp"
         android:layout_width="match_parent"
@@ -17,7 +18,7 @@
        android:background="#99FFFFFF"
         android:id="@+id/range_lv"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:cacheColorHint="#00000000"
         android:listSelector="@android:color/transparent"

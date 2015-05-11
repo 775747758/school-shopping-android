@@ -11,6 +11,7 @@ import com.school.shopping.login.Activity_Login;
 import com.school.shopping.manager.ThreadManager;
 import com.school.shopping.showgoods.Activity_ShowGoods;
 import com.school.shopping.utils.FileUtils;
+import com.school.shopping.utils.LogUtils;
 
 
 public class WelcomeAct extends Activity {
@@ -20,17 +21,26 @@ public class WelcomeAct extends Activity {
 	private static final int TIME = 2000;
 	private static final int GO_HOME = 1000;
 	private static final int GO_GUIDE = 1001;
-	
+	private boolean isAutoLogin;
 	
 	private Handler mHandler = new Handler(){
+		
+
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case GO_HOME:
 				token=Config.getCachedToken();
-				if(token!=null){
-					goHome();
-				}
-				else{
+				isAutoLogin=Config.getAutoLogin();
+				if(isAutoLogin){
+					if(token!=null){
+						goHome();
+					}
+					else{
+						LogUtils.i("token null");
+						goLogin();
+					}
+				}else{
+					LogUtils.i("no  isAutoLogin");
 					goLogin();
 				}
 				break;

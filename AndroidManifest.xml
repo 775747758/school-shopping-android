@@ -109,6 +109,8 @@
         </activity>
         <activity android:name=".me.Activity_School" >
         </activity>
+         <activity android:name=".me.Activity_AddGood" >
+        </activity>
 
         <service android:name=".net.ParseJsonDataService" >
         </service>

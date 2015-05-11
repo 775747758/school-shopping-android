@@ -17,6 +17,7 @@ public class Activity_GoodDetail extends BaseActivity {
 
 	private GoodVo goodVo;
 	private LoadingPage mContentView;
+	private String from;
 
 	//后初始化界面
 	@Override
@@ -51,6 +52,13 @@ public class Activity_GoodDetail extends BaseActivity {
 
 	protected View createLoadedView() {
 		GoodDetailHolder holder=new GoodDetailHolder();
+		if("Activity_ShowGoods".equals(from)){
+			holder.setIsMyGoods(false);
+		}
+		else if("Activity_MyGoods".equals(from)){
+			holder.setIsMyGoods(true);
+		}
+		holder.setActivity(Activity_GoodDetail.this);
 		holder.setData(goodVo);
 		return holder.getRootView();
 	}
@@ -61,7 +69,7 @@ public class Activity_GoodDetail extends BaseActivity {
 	    Intent intent = getIntent();  
         Bundle bundle = intent.getExtras();  
         goodVo = (GoodVo)bundle.getParcelable("GoodVo");
-        LogUtils.i(goodVo.toString());
+        from=intent.getStringExtra("from");
 	}
 
 }

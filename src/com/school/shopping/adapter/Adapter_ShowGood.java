@@ -52,6 +52,7 @@ public class Adapter_ShowGood extends DefaultAdapter<GoodVo> {
 		Bundle bundle=new Bundle();
 		bundle.putParcelable("GoodVo", goods.get(position));
 		intent.putExtras(bundle);
+		intent.putExtra("from", "Activity_ShowGoods");
 		UIUtils.startActivity(intent);
 	}
 	

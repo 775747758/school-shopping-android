@@ -272,7 +272,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 
 	
 	public void exist(){
-		Config.remoceCache();
+		Config.removeCache("token");
 		Intent intent = new Intent(MainActivity.this,
 				Activity_Login.class);
 		intent.putExtra("isNotice", true);

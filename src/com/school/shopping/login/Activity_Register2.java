@@ -245,7 +245,7 @@ public class Activity_Register2 extends Activity {
 			gender = 0;
 		}
 		// dialog=new
-		dialog=new MyProgressPopUpWindow(Activity_Register2.this,"正在提交中...").createADialog();
+		dialog=MyProgressPopUpWindow.createADialog("正在提交中...");
 		UploadUtil.register(getApplicationContext(),"Activity_Register2", file.getAbsolutePath()
 				.toString(), URLProtocol.REGISTER, username,
 				password, city, school, name_et.getText().toString(), phone_tv.getText().toString(), qq_tv.getText().toString(), gender);

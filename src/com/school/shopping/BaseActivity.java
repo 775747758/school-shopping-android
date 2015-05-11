@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.school.shopping.utils.LogUtils;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,6 +18,7 @@ public abstract class BaseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
 		synchronized (mActivity) {
 			//存储所有打开的activity
 			mActivity.add(this);
@@ -73,5 +76,12 @@ public abstract class BaseActivity extends Activity {
 	protected abstract void initView();
 
 	protected abstract void init();
+	
+	public static void finishRunActivity(){
+		if(runActivity!=null){
+			LogUtils.i("已经停止当前activity");
+			runActivity.finish();
+		}
+	}
 
 }

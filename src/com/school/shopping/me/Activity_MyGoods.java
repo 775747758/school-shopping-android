@@ -3,86 +3,111 @@ package com.school.shopping.me;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+
+import android.content.Intent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.school.shopping.Config;
+import com.school.shopping.BaseActivity;
 import com.school.shopping.MyApplication;
 import com.school.shopping.R;
 import com.school.shopping.adapter.Adapter_MyGoods;
 import com.school.shopping.entity.Good;
-import com.school.shopping.entity.User;
-import com.school.shopping.net.URLParam;
-import com.school.shopping.net.URLProtocol;
+import com.school.shopping.net.MyGoodProtocal;
+import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.utils.ViewUtils;
+import com.school.shopping.view.LoadingPage;
+import com.school.shopping.view.LoadingPage.LoadResult;
 
-public class Activity_MyGoods extends Activity{
+public class Activity_MyGoods extends BaseActivity{
 	
 	private PullToRefreshListView myGoodsLV;
 	List<Good> goodsData = new ArrayList<Good>();
 	private MyApplication myApp;
+	private LoadingPage mContentView;
+	private Adapter_MyGoods adapter;
+	private MyGoodProtocal myGoodProtocal;
+	private TextView tv_null;
+	private ImageView sv_menu_right;
+	
+	
+	@Override
+	protected void initView() {
+	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mygoods);
-		myGoodsLV=(PullToRefreshListView)findViewById(R.id.myGoods_lv);
-		myApp = (MyApplication)getApplication();  //获得自定义的应用程序MyApp 
-		User user=Config.getCachedUser();
-		getJSONVolley(user.getId());
+	protected void init() {
+		
+		LogUtils.i("重新打开MYgoodactivity");
+		
+		if(mContentView == null){
+			mContentView = new LoadingPage(UIUtils.getContext()){
+
+				@Override
+				public View createLoadedView() {
+					return Activity_MyGoods.this.createLoadedView();
+				}
+
+				@Override
+				public LoadResult load() {
+					LoadResult loadResult=Activity_MyGoods.this.load();
+					return loadResult;
+				}
+			};
+		}else{
+			ViewUtils.removeSelfFromParent(mContentView);
+		}
+		
+		setContentView(mContentView);
+		mContentView.show();
+	}
+
+	protected LoadResult load() {
+
+		if(myGoodProtocal==null){
+			myGoodProtocal=new MyGoodProtocal();
+		}
+
+		goodsData=myGoodProtocal.load(0,20,true);
+		
+		UIUtils.runInMainThread(new Runnable() {
+			@Override
+			public void run() {
+				if( Activity_MyGoods.this.adapter!=null){
+					LogUtils.i("refresh");
+					if(tv_null!=null){
+						tv_null.setVisibility(View.GONE);
+					}
+					adapter.setData(goodsData);
+				}
+			}
+		});
+		return LoadResult.success;
+	}
+
+	protected View createLoadedView() {
+		View view = UIUtils.inflate(R.layout.activity_mygoods);
+		sv_menu_right=(ImageView)view.findViewById(R.id.sv_menu_right);
+		sv_menu_right.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(BaseActivity.getRunActivity(),Activity_AddGood.class);
+				UIUtils.startActivity(intent);
+			}
+		});
+		tv_null=(TextView)view.findViewById(R.id.tv_null);
+		myGoodsLV=(PullToRefreshListView)view.findViewById(R.id.myGoods_lv);
+		adapter=new Adapter_MyGoods(goodsData);
+		adapter.setProtocal(myGoodProtocal);
+		adapter.setListview(myGoodsLV);
+		myGoodsLV.setAdapter(adapter);
+		return view;
 	}
 	
-	//加载用户详细信息
-		public void getJSONVolley(final int uid) {
-			RequestQueue requestQueue = Volley.newRequestQueue(this);
-			String JSONDateUrl = URLProtocol.GET_MY_GOODS;
-			URLParam param=new URLParam(JSONDateUrl);
-			param.addParam("uid",uid);	
-			Log.i("ert", param.getQueryStr());
-			JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-					Request.Method.GET, param.getQueryStr(), null,
-					new Response.Listener<JSONObject>() {
-						public void onResponse(JSONObject response) {
-							try {
-								String temp=response.getString("goods");
-								JSONArray tempArr=new JSONArray(temp);
-								for(int i=0;i<tempArr.length();i++){
-									JSONObject jso=new JSONObject(tempArr.get(i).toString());
-									Good good=new Good();
-									good.setGoodName(jso.getString("goodName"));
-									good.setPrice(jso.getString("price"));
-									good.setType(jso.getInt("type"));
-									good.setIsAdjust(jso.getInt("isAdjust"));
-									good.setNewLevel(jso.getInt("newLevel"));
-									good.setIntroduction(jso.getString("introduction"));
-									good.setUid(jso.getInt("uid"));
-									good.setId(jso.getInt("id"));
-									goodsData.add(good);
-								}
-							} catch (JSONException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-							myGoodsLV.setAdapter(new Adapter_MyGoods(goodsData));
-							
-					}}, new Response.ErrorListener() {
-						public void onErrorResponse(
-								com.android.volley.VolleyError arg0) {
-							//dialog.dismiss();
-							UIUtils.showMsg("服务器出现问题，我们会尽快解决");
-						}
-					});
-			requestQueue.add(jsonObjectRequest);
-		}
 
 }

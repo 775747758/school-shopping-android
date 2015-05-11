@@ -2,12 +2,15 @@ package com.school.shopping;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.Application;
+import android.os.Environment;
+import android.os.Handler;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,27 +23,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.school.shopping.data.MyPreferences;
 import com.school.shopping.entity.User;
-import com.school.shopping.login.Activity_Login;
-import com.school.shopping.login.Activity_Register1;
-import com.school.shopping.login.Activity_Register3;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
-import com.school.shopping.utils.DeviceInfo;
 import com.school.shopping.utils.UIUtils;
-
-import android.app.Application;
-import android.content.Intent;
-import android.os.Environment;
-import android.os.Handler;
-import android.util.Log;
 
 public class MyApplication extends Application {
 
-	public int SELECT_SELECT_PICTURE = 10;
-	public int SELECT_CAMERA_RESULT = 11;
+	public static final int SELECT_SELECT_PICTURE = 10;
+	public static final int SELECT_CAMERA_RESULT = 11;
 	public static File cacheDir;
 	public static ImageLoader imageLoader;
 	public static Application application;

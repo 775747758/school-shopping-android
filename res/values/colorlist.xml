@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- titleBar的背景颜色 -->
-    <color name="titleBar">#DEDEDE</color>
+    <color name="titleBar">#ff5722</color>
      <!-- titleBar点击按下的背景颜色 -->
     <color name="titleBar_pressed">#BCBCBC</color>
 	<color name="hinttextcolor">#B5B4B4</color>
