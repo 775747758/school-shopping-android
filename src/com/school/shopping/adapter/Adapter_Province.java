@@ -9,6 +9,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.school.shopping.Config;
 import com.school.shopping.entity.Province;
 import com.school.shopping.holder.ProvinceHolder;
 import com.school.shopping.me.Activity_City;
@@ -18,6 +19,12 @@ import com.school.shopping.utils.UIUtils;
 public class Adapter_Province extends BaseAdapter{
 	
 	List<Province> provinces;
+	
+	private String from;
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
 
 	public Adapter_Province( List<Province> provinces,ListView lv) {
 		super();
@@ -27,7 +34,7 @@ public class Adapter_Province extends BaseAdapter{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				LogUtils.i("dainjile1");
+				Config.saveProvince(Adapter_Province.this.provinces.get(position).getProName());
 				Intent intent=new Intent(UIUtils.getContext(),Activity_City.class);
 				intent.putExtra("proId", Adapter_Province.this.provinces.get(position).getId());
 				intent.putExtra("proName", Adapter_Province.this.provinces.get(position).getProName());

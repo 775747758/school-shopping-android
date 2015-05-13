@@ -297,8 +297,8 @@ public class Activity_AddGood extends BaseActivity implements OnClickListener{
 		});
 		RangeAlert.show();
 		RangeAlert.setContentView(view1);
-		int width=UIUtils.getWIndowWidth(Activity_AddGood.this);
-		int height=UIUtils.getWindowHeight(Activity_AddGood.this);
+		int width=UIUtils.getWindowWidth();
+		int height=UIUtils.getWindowHeight();
 		RangeAlert.getWindow().setLayout(2 * width / 3,LayoutParams.WRAP_CONTENT);
 	}
 	
@@ -325,8 +325,8 @@ public class Activity_AddGood extends BaseActivity implements OnClickListener{
 		});
 		RangeAlert.show();
 		RangeAlert.setContentView(view1);
-		int width=UIUtils.getWIndowWidth(Activity_AddGood.this);
-		int height=UIUtils.getWindowHeight(Activity_AddGood.this);
+		int width=UIUtils.getWindowWidth();
+		int height=UIUtils.getWindowHeight();
 		RangeAlert.getWindow().setLayout(2 * width / 3,LayoutParams.WRAP_CONTENT);
 	}
 	

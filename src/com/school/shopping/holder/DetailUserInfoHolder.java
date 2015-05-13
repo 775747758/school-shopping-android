@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-
 import com.meg7.widget.CustomShapeImageView;
 import com.school.shopping.R;
-import com.school.shopping.adapter.DefaultAdapter;
 import com.school.shopping.entity.User;
+import com.school.shopping.login.Activity_School;
 import com.school.shopping.me.Activity_AlterCity;
 import com.school.shopping.me.Activity_AlterUserInfo;
-import com.school.shopping.me.Activity_School;
 import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
 
@@ -97,6 +95,7 @@ public class DetailUserInfoHolder extends BaseHolder<User> implements OnClickLis
 			break;
 		case R.id.city_tv:
 			Intent intentC=new Intent(getCurrentActivity(),Activity_AlterCity.class);
+			intentC.putExtra("from", "Activity_AlertUserInfo");
 			UIUtils.startActivity(intentC);
 			break;
 		case R.id.school_tv:

@@ -57,6 +57,12 @@ public abstract class BaseProtocol<T> {
 	public boolean isNetError() {
 		return isNetError;
 	}
+	
+	private File uploadFile;
+
+	public void setUploadFile(File uploadFile) {
+		this.uploadFile = uploadFile;
+	}
 
 	/** 加载协议 
 	 * @param isFromCache */
@@ -154,8 +160,17 @@ public abstract class BaseProtocol<T> {
 			httpUtils.configCurrentHttpCacheExpiry(0);
 			httpUtils.configSoTimeout(1000*10);
 			try {
-				ResponseStream sendSync = httpUtils.sendSync(HttpMethod.POST,
-						param.getQueryStr());
+				ResponseStream sendSync =null;
+				if(uploadFile!=null){
+					LogUtils.i("BaseProtocal：：上传文件：："+param.getQueryStr());
+					RequestParams params = new RequestParams();
+					params.addBodyParameter("file", uploadFile);
+					sendSync=httpUtils.sendSync(HttpMethod.POST,
+							param.getQueryStr(),params);
+				}else{
+					sendSync=httpUtils.sendSync(HttpMethod.POST,
+							param.getQueryStr());
+				}
 				json = sendSync.readString();
 				if(json!=null){
 					LogUtils.i(json + "json");

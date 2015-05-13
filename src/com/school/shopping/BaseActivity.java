@@ -1,21 +1,16 @@
 package com.school.shopping;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.school.shopping.utils.LogUtils;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import com.school.shopping.utils.LogUtils;
 
 public abstract class BaseActivity extends Activity {
 	
 	private static Activity runActivity;
 	
 	List<BaseActivity> mActivity=new LinkedList<BaseActivity>();
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
@@ -73,9 +68,11 @@ public abstract class BaseActivity extends Activity {
 		
 	}
 
+	protected abstract void init();
+	
 	protected abstract void initView();
 
-	protected abstract void init();
+	
 	
 	public static void finishRunActivity(){
 		if(runActivity!=null){

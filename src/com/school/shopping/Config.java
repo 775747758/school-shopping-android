@@ -26,10 +26,76 @@ public class Config {
 	public static final String KEY_ID = "id";
 	public static final String AUTO_LOGIN = "auto_login";
 	public static final String SAVE_PW = "save_pw";
+	public static final String FIRST_IN = "isFirstIn";
+	public static final String PROVINCE = "province";
+	public static final String CITY = "city";
+	public static final String LONGTITUDE = "longtitude";
+	public static final String LATITUDE = "latitude";
 	
 	public static final String NET_ERROR = "net_error";
 	
 	public static final Context context = UIUtils.getContext();
+	
+	
+	public static boolean isFirstIn() {
+		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.getBoolean(FIRST_IN, true);
+	}
+	
+	public static void setFirstIn(boolean isFirstIn){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putBoolean(FIRST_IN, isFirstIn);
+		e.commit();
+	}
+	
+	public static String getProvince() {
+		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.getString(PROVINCE, null);
+	}
+	
+	public static void saveProvince(String province){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putString(PROVINCE, province);
+		e.commit();
+	}
+	
+	public static String getCity() {
+		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.getString(CITY, null);
+	}
+	
+	public static void saveCity(String city){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putString(CITY, city);
+		e.commit();
+	}
+	
+	public static String getLontitude() {
+		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.getString(LONGTITUDE, null);
+	}
+	
+	public static void saveLontitude(String longtitude){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putString(LONGTITUDE, longtitude);
+		e.commit();
+	}
+	
+	public static String getLatitude() {
+		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.getString(LATITUDE, null);
+	}
+	
+	public static void saveLatitude(String latitude){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putString(LATITUDE, latitude);
+		e.commit();
+	}
 
 	public static String getCachedToken() {
 		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)

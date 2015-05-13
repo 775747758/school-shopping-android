@@ -9,5 +9,17 @@
     <dimen name="list_item_bottom_margin">12dp</dimen>
 	<dimen name="list_item_loadmore_padding">5dp</dimen>
 	<dimen name="list_item_loadmore_height">40dp</dimen>
+	
+	<dimen name="font1">12sp</dimen>
+	<dimen name="font2">14sp</dimen>
+	<dimen name="font3">16sp</dimen>
+	<dimen name="font4">20sp</dimen>
+	<dimen name="font5">24sp</dimen>
+	<dimen name="font6">34sp</dimen>
+	<dimen name="font7">45sp</dimen>
+	<dimen name="font8">56sp</dimen>
+	<dimen name="font9">112sp</dimen>
+	
+	<dimen name="paddingLeft1">15dp</dimen>
 
 </resources>

@@ -1,227 +1,227 @@
 package com.school.shopping.login;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.Activity;
+import java.io.File;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Service;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Vibrator;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.GeofenceClient;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import com.meg7.widget.CustomShapeImageView;
+import com.school.shopping.BaseActivity;
+import com.school.shopping.Config;
+import com.school.shopping.MainActivity;
+import com.school.shopping.MyApplication;
 import com.school.shopping.R;
-import com.school.shopping.net.URLParam;
-import com.school.shopping.net.URLProtocol;
+import com.school.shopping.entity.User;
+import com.school.shopping.manager.ThreadManager;
+import com.school.shopping.net.Register3Protocal;
+import com.school.shopping.utils.CompressPicture;
+import com.school.shopping.utils.DeviceInfo;
+import com.school.shopping.utils.DialogUtils;
+import com.school.shopping.utils.FileUtils;
+import com.school.shopping.utils.MD5;
+import com.school.shopping.utils.StringUtils;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.MyProgressPopUpWindow;
 
-public class Activity_Register3 extends Activity {
+public class Activity_Register3 extends BaseActivity {
 
-	private TextView city_et;
-	private TextView school_et;
-	List<String> schoolList=new ArrayList<String>();
-	private Builder builder;
-	private LayoutInflater inflater;
-	private AlertDialog RangeAlert;
-	private ListView range_lv;
-	private LocationClient mLocationClient;
-	private MyLocationListener mMyLocationListener;
-	private GeofenceClient mGeofenceClient;
-	private Vibrator mVibrator;
+	private EditText name_et;
+	private EditText phone_tv;
+	private EditText qq_tv;
+	private RadioButton man_radio;
+	private RadioButton woman_radio;
+	private File file;
 	private String username;
 	private String password;
+	private CustomShapeImageView portrait_imageview;
+	private String city;
+	private String school;
+	public AlertDialog dialog = null;
+	private boolean isManChecked = true;
+	
+	@Override
+	protected void init() {
+		Intent intent = getIntent();
+		if (intent != null) {
+			username = intent.getStringExtra("username");
+			password = intent.getStringExtra("password");
+			school = intent.getStringExtra("school");
+		}
+	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-
-		super.onCreate(savedInstanceState);
+	protected void initView() {
 		setContentView(R.layout.activity_register3);
-		
-		
-		Intent intent=getIntent();
-		username=intent.getStringExtra("username");
-		password=intent.getStringExtra("password");
 
-		city_et = (TextView) findViewById(R.id.city_et);
-		school_et = (TextView) findViewById(R.id.school_et);
-		school_et.setText("浙江工业大学");
-		mLocationClient = new LocationClient(this.getApplicationContext());
-		mMyLocationListener = new MyLocationListener();
-		mLocationClient.registerLocationListener(mMyLocationListener);
-		mGeofenceClient = new GeofenceClient(getApplicationContext());
-		mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-		InitLocation();
-		mLocationClient.start();
-	}
-	
-	private void InitLocation(){
-		LocationClientOption option = new LocationClientOption();
-		option.setLocationMode(LocationMode.Battery_Saving);//设置定位模式
-		int span=1000;
-		option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
-		option.setIsNeedAddress(true);
-		mLocationClient.setLocOption(option);
-	}
+		name_et = (EditText) findViewById(R.id.name_et);
+		phone_tv = (EditText) findViewById(R.id.phone_tv);
+		qq_tv = (EditText) findViewById(R.id.qq_tv);
+		man_radio = (RadioButton) findViewById(R.id.man_radio);
+		woman_radio = (RadioButton) findViewById(R.id.woman_radio);
+		portrait_imageview = (CustomShapeImageView) findViewById(R.id.portrait_imageview);
 
-	public void selectschool(View view) {
+		man_radio.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isManChecked) {
+					man_radio.setChecked(false);
+					woman_radio.setChecked(true);
+					isManChecked = false;
+				} else {
+					man_radio.setChecked(true);
+					woman_radio.setChecked(false);
+					isManChecked = true;
+				}
+
+			}
+		});
+		woman_radio.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isManChecked) {
+					man_radio.setChecked(false);
+					woman_radio.setChecked(true);
+					isManChecked = false;
+				} else {
+					man_radio.setChecked(true);
+					woman_radio.setChecked(false);
+					isManChecked = true;
+				}
+			}
+		});
+		StringBuilder builderFileName = new StringBuilder();
+		builderFileName.append("/user_").append(username.trim());
 		try {
-			getJSONVolley();
-		} catch (UnsupportedEncodingException e) {
+			file = new File(FileUtils.getCacheDir() + MD5.getMD5(builderFileName.toString()) + ".jpg");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	// 获取json字符串
-	public void getJSONVolley() throws UnsupportedEncodingException {
-		RequestQueue requestQueue = Volley.newRequestQueue(this);
-		String JSONDateUrl =URLProtocol.GET_UNIVERSITY;
-		URLParam param = new URLParam(JSONDateUrl);
-		param.addParam_Encode("query", "大学");
-		param.addParam_Encode("region", "包头");
-		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-				Request.Method.GET,param.getQueryStr(), null,
-				new Response.Listener<JSONObject>() {
-					public void onResponse(JSONObject response) {
-						Log.i("dddd", response.toString());
-						int status = 0;
-						try {
-							status = response.getInt("status");
-							if (status == 0) {
-								String schoolStr=response.get("results").toString();
-								Log.i("school", schoolStr);
-								JSONArray schoolArr=new JSONArray(schoolStr);
-								for(int i=0;i<schoolArr.length();i++){
-									JSONObject school=schoolArr.getJSONObject(i);
-									String name=school.getString("name");
-									schoolList.add(name);
-								}
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+	
 
-						spinner();
-					}
-				}, new Response.ErrorListener() {
-					public void onErrorResponse(
-							com.android.volley.VolleyError arg0) {
-						UIUtils.showMsg(URLProtocol.MSG_SERVER_ERROR);
-					}
-				});
-		
-		
-		
-		requestQueue.add(jsonObjectRequest);
+	public void portrait(View view) {
+		DialogUtils.selectPicture(file);
 	}
+
 	
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	@SuppressLint("NewApi")
-	public void spinner() {
-			builder = new AlertDialog.Builder(
-					Activity_Register3.this, R.style.Dialog);
-			builder.setInverseBackgroundForced(true);
-			inflater = LayoutInflater.from(getApplicationContext());
-			View view1 = inflater.inflate(R.layout.dialog_range, null);
-			RangeAlert = builder.create();
-			range_lv = (ListView) view1.findViewById(R.id.range_lv);
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.listitem_search_range, R.id.item_tv, schoolList.toArray(new String[schoolList.size()]));
-			range_lv.setAdapter(adapter);
-			range_lv.setOnItemClickListener(new OnItemClickListener() {
 
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-
-					school_et.setText(schoolList.get(arg2));
-					RangeAlert.dismiss();
-				}
-			});
-			RangeAlert.setOnDismissListener(new OnDismissListener() {
-				
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					
-				}
-			});
-			RangeAlert.show();
-			RangeAlert.setContentView(view1);
-			RangeAlert.getWindow().setLayout(2 * UIUtils.getWindowHeight(Activity_Register3.this) / 3,UIUtils.getWIndowWidth(Activity_Register3.this)-200 );
-	}
-	
-	
-	/**
-	 * 实现实位回调监听
-	 */
-	public class MyLocationListener implements BDLocationListener {
-
-		@Override
-		public void onReceiveLocation(BDLocation location) {
-			city_et.setText(location.getCity());
-			
-			if (location.getLocType() == BDLocation.TypeGpsLocation){
-				
-			} else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
-				
-			}
-			
-		}
-
-
-	}
-	
-	public void next(View view) {
-
-		/*if (city_et.getText().toString().length()<1 ) {
-			Toast.makeText(getApplicationContext(), "您请等待定位您所在的城市！",
-					Toast.LENGTH_SHORT).show();
-			return;
-		}*/
-		if (school_et.getText().toString().length()<1) {
-			UIUtils.showMsg("请选择您所在的学校！");
-			return;
-		}
-
-		Intent intent = new Intent(Activity_Register3.this,
-				Activity_Register2.class);
-		intent.putExtra("username", username);
-		intent.putExtra("password", password);
-		intent.putExtra("city", "包头");
-		intent.putExtra("school", school_et.getText().toString());
+	public void returnn(View view) {
+		Intent intent = new Intent(Activity_Register3.this, Activity_Register2.class);
 		startActivity(intent);
-		overridePendingTransition(R.anim.zoomin, R.anim.zoomout);
+	}
+
+	public void next(View view) {
+		if (checkData()) {
+			if (dialog == null) {
+				dialog = MyProgressPopUpWindow.createADialog("正在提交中...");
+			}
+			User user=new User();
+			user.setCity(Config.getCity());
+			user.setGender(isManChecked==true?1:0);
+			user.setId(-1);
+			user.setPassword(password);
+			user.setPhone(phone_tv.getText().toString().trim());
+			user.setQq(qq_tv.getText().toString().trim());
+			user.setRealName(name_et.getText().toString().trim());
+			user.setSchool(school);
+			user.setUname(username);
+			user.setDeviceId(DeviceInfo.getUniqueID());
+			user.setLatitude(Config.getLatitude());
+			user.setLongitude(Config.getLontitude());
+			user.setProvince(Config.getProvince());
+			final Register3Protocal protocal=new Register3Protocal();
+			protocal.setUser(user);
+			protocal.setUploadFile(file);
+			ThreadManager.getLongPool().execute(new Runnable() {
+				
+				@Override
+				public void run() {
+					final String result=protocal.load(-1, -1, false);
+					UIUtils.runInMainThread(new Runnable() {
+						
+						@Override
+						public void run() {
+							dialog.dismiss();
+							if(protocal.isNetError()){
+								UIUtils.showMsg("网络错误，请检查网络！");
+							}
+							else if(result==null){
+								UIUtils.showMsg("注册失败！");
+							}else{
+								Intent intent = new Intent(Activity_Register3.this,
+										MainActivity.class);
+								startActivity(intent);
+							}
+						}
+					});
+				}
+			});
+		}
+	}
+
+	public boolean checkData() {
+		if (name_et.getText().toString().length() < 1 || name_et.getText().toString().length() > 10) {
+			UIUtils.showMsg("您输入的昵称不符合规范，请重新输入！");
+			return false;
+		}
+		if (phone_tv.getText().toString().length()!=11) {
+			UIUtils.showMsg("您输入的手机号码不符合规范，请重新输入！");
+			return false;
+		}
+		if (qq_tv.getText().toString().length() < 5 || qq_tv.getText().toString().length() > 15) {
+			UIUtils.showMsg("您输入的QQ码不符合规范，请重新输入！");
+			return false;
+		}
+		if(portrait_imageview.getTag()==null||!(boolean) portrait_imageview.getTag())
+		 {
+			UIUtils.showMsg("请设置头像！");
+			return false;
+		}
+		if(StringUtils.isEmpty(Config.getLontitude())||StringUtils.isEmpty(Config.getLatitude())){
+			UIUtils.showMsg("请检查您的GPS是否打开！");
+			return false;
+		}
+		if(StringUtils.isEmpty(school)){
+			UIUtils.showMsg("您的学校信息有误，请返回上一页面，重新选择！");
+			return false;
+		}
+		
+		return true;
+	}
+
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (!FileUtils.isSDCardAvailable()) {
+				Log.i("TestFile", "SD card is not avaiable/writeable right now.");
+				return;
+			}
+
+			if (requestCode == MyApplication.SELECT_SELECT_PICTURE) {
+				CompressPicture.getimage(file.getAbsolutePath(), file);
+			}
+			if (requestCode == MyApplication.SELECT_CAMERA_RESULT) {
+				CompressPicture.getimage(file.getAbsolutePath(), file);
+			}
+			portrait_imageview.setTag(true);
+			Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+			portrait_imageview.setImageBitmap(bitmap);
+			portrait_imageview.invalidate();
+		}
 
 	}
-	
 }

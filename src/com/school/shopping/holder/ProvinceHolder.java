@@ -21,6 +21,8 @@ public class ProvinceHolder extends BaseHolder<Province> {
 	@Override
 	public View initView() {
 		View view=UIUtils.inflate(R.layout.listitem_province);
+		View divider=view.findViewById(R.id.divider);
+		divider.setVisibility(View.GONE);
 		tv_province=(TextView)view.findViewById(R.id.tv_province);
 		return view;
 	}

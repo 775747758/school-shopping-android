@@ -31,19 +31,19 @@ public class Activity_Login extends BaseActivity {
 		setContentView(R.layout.activity_login);
 		
 
-		toggleAutoLogin = (ToggleButton) findViewById(R.id.toggleAutoLogin);
+		//toggleAutoLogin = (ToggleButton) findViewById(R.id.toggleAutoLogin);
 		usernameEditText = (EditText) findViewById(R.id.username);
 		usernameEditText.setText(Config.getUname());
 		usernameEditText.setSelection(Config.getUname().length());
 		passwordEditText = (EditText) findViewById(R.id.password);
-		toggleAutoLogin.setChecked(Config.getAutoLogin());
+		//toggleAutoLogin.setChecked(Config.getAutoLogin());
 
-		toggleAutoLogin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		/*toggleAutoLogin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				Config.setAutoLogin(isChecked);
 			}
 		});
-
+*/
 	}
 
 	@Override
@@ -109,11 +109,11 @@ public class Activity_Login extends BaseActivity {
 			UIUtils.showMsg("密码不能为空！");
 			return false;
 		}
-		if (username.length() < 6 || username.length() > 10) {
+		if (username.length() < 6 || username.length() > 12) {
 			UIUtils.showMsg("您输入的用户名不符合规范，请重新输入！");
 			return false;
 		}
-		if (password.length() < 6 || username.length() > 10) {
+		if (password.length() < 6 || username.length() > 12) {
 			UIUtils.showMsg("您输入的密码不符合规范，请重新输入！");
 			return false;
 		}

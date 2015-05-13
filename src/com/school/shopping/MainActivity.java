@@ -21,7 +21,7 @@ import com.school.shopping.fragment.Fragment_Home;
 import com.school.shopping.fragment.Fragment_Me;
 import com.school.shopping.fragment.TabFragment;
 import com.school.shopping.login.Activity_Login;
-import com.school.shopping.login.Activity_Register3;
+import com.school.shopping.login.Activity_Register2;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
 import com.school.shopping.utils.ActionBarUtils;
