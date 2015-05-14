@@ -183,7 +183,7 @@ public class Activity_Register3 extends BaseActivity {
 			UIUtils.showMsg("您输入的QQ码不符合规范，请重新输入！");
 			return false;
 		}
-		if(portrait_imageview.getTag()==null||!(boolean) portrait_imageview.getTag())
+		if(portrait_imageview.getTag()==null||!(Boolean) portrait_imageview.getTag())
 		 {
 			UIUtils.showMsg("请设置头像！");
 			return false;

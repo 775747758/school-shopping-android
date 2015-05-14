@@ -68,9 +68,9 @@ public final class R {
 		public static final int webview = 0x7f09000a;
 	}
 	public static final class layout {
-		public static final int need_this_for_maven = 0x7f03003c;
-		public static final int pull_to_refresh_header_horizontal = 0x7f030041;
-		public static final int pull_to_refresh_header_vertical = 0x7f030042;
+		public static final int need_this_for_maven = 0x7f03003d;
+		public static final int pull_to_refresh_header_horizontal = 0x7f030042;
+		public static final int pull_to_refresh_header_vertical = 0x7f030043;
 	}
 	public static final class string {
 		public static final int pull_to_refresh_from_bottom_pull_label = 0x7f0a0013;

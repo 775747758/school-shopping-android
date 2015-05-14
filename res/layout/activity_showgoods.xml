@@ -3,6 +3,7 @@
     xmlns:ptr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0F0F0"
     android:orientation="vertical" >
 
     <include layout="@layout/title_bar_showgoods" />
@@ -88,24 +89,28 @@
         android:layout_height="fill_parent" >
         
         
+        
+        
 
         <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/goods_lv"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#FFFFFF"
-            ptr:ptrHeaderBackground="@android:color/white" />
+             />
         
         <TextView 
             android:visibility="invisible"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:gravity="center"
             android:id="@+id/tv_null"
+            android:background="#FFFFFF"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#FFFFFF"
+            android:textColor="@color/bodyShallow"
             android:text="没有您要搜索的物品！"
             />
+        
+        
         
     </FrameLayout>
 

@@ -3,17 +3,21 @@ package com.school.shopping.showgoods;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.school.shopping.BaseActivity;
+import com.school.shopping.Config;
 import com.school.shopping.R;
 import com.school.shopping.adapter.Adapter_ShowGood;
 import com.school.shopping.entity.Good;
 import com.school.shopping.net.ShowGoodProtocal;
+import com.school.shopping.utils.DialogUtils;
 import com.school.shopping.utils.ListUtils;
 import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
@@ -24,7 +28,7 @@ import com.school.shopping.vo.GoodVo;
 
 public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 
-	private LoadingPage mContentView;
+	private static LoadingPage mContentView;
 	public static final int SORT_TYPE_DATE=0;
 	public static final int SORT_TYPE_DISTANCE=1;
 	public static final int SORT_TYPE_PRICE=2;
@@ -35,23 +39,21 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 	public static final int TYPE_DIGIT=3;
 	public static final int TYPE_OTHER=4;
 	private int sortType=SORT_TYPE_DATE;
-	private int type=TYPE_ALL;
-	private boolean isFromCache=true;
-	private String keyword;
+	private static int type=TYPE_ALL;
+	private static boolean isFromCache=true;
+	private static String keyword;
 	List<GoodVo> goodsData = new ArrayList<GoodVo>();
 	private Adapter_ShowGood adapter;
-	private TextView beginSearch_tv;
+	private ImageView iv_search;
 	private EditText search_et;
 	private ShowGoodProtocal showGoodProtocal;
 	private TextView tv_null;
+	public static final int BEGIN_SEARCH=10;
+	
+	
 	@Override
 	protected void initView() {
-		
-		
-	}
 
-	@Override
-	protected void init() {
 		if(mContentView == null){
 			mContentView = new LoadingPage(UIUtils.getContext()){
 
@@ -65,8 +67,6 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 					LoadResult loadResult=Activity_ShowGoods.this.load();
 					return loadResult;
 				}
-				
-				
 			};
 		}else{
 			ViewUtils.removeSelfFromParent(mContentView);
@@ -74,8 +74,10 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 		
 		setContentView(mContentView);
 		mContentView.show();
-		
 	}
+
+	@Override
+	protected void init() {}
 
 	protected LoadResult load() {
 		if(showGoodProtocal==null){
@@ -84,19 +86,42 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 		showGoodProtocal.setSortType(sortType);
 		showGoodProtocal.setType(type);
 		showGoodProtocal.setKeyword(keyword);
-		goodsData=showGoodProtocal.load(0,20,isFromCache);
-		/*if(null == goodsData){
+		goodsData=showGoodProtocal.load(0,20,false);
+		if(showGoodProtocal.isNetError()){
+			LogUtils.i("网络错误");
+			return LoadResult.error;
+		}
+		if(null != goodsData){
 			
 			UIUtils.runInMainThread(new Runnable() {
+				@Override
+				public void run() {
+					
+					if( Activity_ShowGoods.this.adapter!=null){
+						LogUtils.i("refresh");
+						if(tv_null!=null){
+							tv_null.setVisibility(View.GONE);
+						}
+						adapter.setData(goodsData);
+						sortData(sortType);
+					}
+				}
+			});
+			LogUtils.i("有数据");
+			return LoadResult.success;
+		}else{
+			UIUtils.runInMainThread(new Runnable() {
+				
 				@Override
 				public void run() {
 					tv_null.setVisibility(View.VISIBLE);
 				}
 			});
+			LogUtils.i("数据为空");
 			return LoadResult.error;
-		}*/
+		}
 		
-		UIUtils.runInMainThread(new Runnable() {
+		/*UIUtils.runInMainThread(new Runnable() {
 			@Override
 			public void run() {
 				if( Activity_ShowGoods.this.adapter!=null){
@@ -108,12 +133,12 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 					sortData(sortType);
 				}
 			}
-		});
-		return LoadResult.success;
+		});*/
 	}
 
 	//加载成功显示的界面
 	protected View createLoadedView() {
+		
 		View view = UIUtils.inflate(R.layout.activity_showgoods);
 		
 		//排序方式
@@ -132,20 +157,27 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 		tv_books.setOnClickListener(this);
 		tv_digit.setOnClickListener(this);
 		tv_other.setOnClickListener(this);
-		//搜索按钮
-		beginSearch_tv=(TextView)view.findViewById(R.id.beginSearch_tv);
+		iv_search=(ImageView) view.findViewById(R.id.iv_search);
+		iv_search.setOnClickListener(this);
 		tv_null=(TextView)view.findViewById(R.id.tv_null);
+		/*//搜索按钮
+		beginSearch_tv=(TextView)view.findViewById(R.id.beginSearch_tv);
+		
 		//tv_null.setVisibility(View.VISIBLE);
 		beginSearch_tv.setOnClickListener(this);
+		search_et=(EditText)view.findViewById(R.id.search_et);*/
 		search_et=(EditText)view.findViewById(R.id.search_et);
 		PullToRefreshListView goods_lv=(PullToRefreshListView) view.findViewById(R.id.goods_lv);
+		LogUtils.i("size::"+goodsData.size());
+		
 		adapter=new Adapter_ShowGood(goodsData);
-		adapter.setListview(goods_lv);
 		if(showGoodProtocal!=null){
 			adapter.setProtocal(showGoodProtocal);
 			adapter.setListview(goods_lv);
 		}
-		goods_lv.setAdapter(adapter);
+		if(goodsData!=null||goodsData.size()>0){
+			goods_lv.setAdapter(adapter);
+		}
 		return view;
 	}
 
@@ -194,11 +226,14 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 		case R.id.beginSearch_tv:
 			LogUtils.i("搜索");
 			//已经在布局文件中限制字数20
-			keyword=search_et.getText().toString();
+			//keyword=search_et.getText().toString();
 			type=TYPE_ALL;
 			isFromCache=false;
 			mContentView.state=LoadingPage.STATE_LOADING;
 			mContentView.show();
+			break;
+		case R.id.iv_search:
+			DialogUtils.createASearchDialog();
 			break;
 		}
 		
@@ -225,5 +260,17 @@ public class Activity_ShowGoods extends BaseActivity implements OnClickListener{
 	
 	}
 	
+	
+	public static Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if(msg.what==BEGIN_SEARCH){
+				keyword=(String)msg.obj;
+				type=TYPE_ALL;
+				isFromCache=false;
+				mContentView.state=LoadingPage.STATE_LOADING;
+				mContentView.show();
+			}
 
+		};
+	};
 }

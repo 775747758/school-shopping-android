@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import com.school.shopping.login.Activity_Login;
 import com.school.shopping.manager.ThreadManager;
+import com.school.shopping.showgoods.Activity_ShowGoods;
 import com.school.shopping.utils.FileUtils;
 import com.school.shopping.utils.LogUtils;
 
@@ -70,7 +71,8 @@ public class WelcomeAct extends BaseActivity {
 	};
 
 	private void goHome() {
-		Intent i = new Intent(WelcomeAct.this, MainActivity.class);
+		Intent i = new Intent(WelcomeAct.this, Activity_ShowGoods.class);
+		//Intent i = new Intent(WelcomeAct.this, MainActivity.class);
 		i.putExtra(Config.KEY_TOKEN, token);
 		startActivity(i);
 		finish();

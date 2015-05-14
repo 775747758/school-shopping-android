@@ -54,7 +54,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/CustomActionBarTheme">
+        android:theme="@style/AppTheme">
         <!-- @style/Theme.Sherlock.Light.DarkActionBar -->
         <activity
             android:name="com.school.shopping.WelcomeAct"

@@ -20,7 +20,7 @@
         android:background="@drawable/tab_bg"
         android:orientation="horizontal" >
 
-        <com.school.shopping.view.ChangeColorIconWithText
+       <com.school.shopping.view.ChangeColorIconWithText
             android:id="@+id/id_indicator_one"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
@@ -28,8 +28,7 @@
             android:padding="5dp"
             hyman:icon_="@drawable/ic_menu_start_conversation"
             hyman:text="@string/bottom_home"
-            hyman:text_size="12sp"
-            hyman:color="#AE2623" />
+            hyman:text_size="12sp" /> 
 
         <com.school.shopping.view.ChangeColorIconWithText
             android:id="@+id/id_indicator_two"
@@ -39,8 +38,7 @@
             android:padding="5dp"
             hyman:icon_="@drawable/bottom_friends"
             hyman:text="@string/bottom_friends"
-            hyman:text_size="12sp"
-            hyman:color="#ff45c01a" />
+            hyman:text_size="12sp" />
 
         <com.school.shopping.view.ChangeColorIconWithText
             android:id="@+id/id_indicator_three"
@@ -50,8 +48,7 @@
             android:padding="5dp"
             hyman:icon_="@drawable/bottom_chat"
             hyman:text="@string/bottom_chat"
-            hyman:text_size="12sp"
-            hyman:color="#ff45c01a" />
+            hyman:text_size="12sp" />
 
         <com.school.shopping.view.ChangeColorIconWithText
             android:id="@+id/id_indicator_four"
@@ -61,8 +58,8 @@
             android:padding="5dp"
             hyman:icon_="@drawable/bottom_me"
             hyman:text="@string/bottom_me"
-            hyman:text_size="12sp"
-            hyman:color="#ff45c01a" />
+            hyman:text_size="12sp" />
+           
     </LinearLayout>
 
 </LinearLayout>

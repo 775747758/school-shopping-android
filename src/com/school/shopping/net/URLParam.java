@@ -35,7 +35,8 @@ public class URLParam {
 		else{
 			_query.append('?');
 		}
-		_query.append(name).append('=').append(URLEncoder.encode(value, "UTF-8"));
+		_query.append(name).append('=').append(URLEncoder.encode(URLEncoder.encode(value, "UTF-8"), "UTF-8"));
+		//_query.append(name).append('=').append(URLEncoder.encode(value, "UTF-8"));
 	}
 	
 	public void addParam(String name ,int value){

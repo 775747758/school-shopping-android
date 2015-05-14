@@ -2,71 +2,80 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="45.0dip"
-    android:background="#0DBFBE"
+    android:background="@color/titleBar"
     android:gravity="center_vertical" >
 
-   <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/rounded_layout_searchbackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="50dp" >
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/search_gray" />
-
-            <EditText
-                android:textAppearance="?android:attr/textAppearanceSmall" 
-                android:textCursorDrawable="@null"
-                android:textColor="@color/gray"
-                android:id="@+id/search_et"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:background="#00000000"
-                android:hint="请输入搜索关键字"
-                android:maxLength="20"
-                android:singleLine="true" >
-            </EditText>
-        </LinearLayout>
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/gray" />
+     <LinearLayout
+        android:layout_width="50dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/selector_titlebar_left"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="back" >
+        
 
         <TextView
-            android:textAppearance="?android:attr/textAppearanceSmall" 
-            android:id="@+id/beginSearch_tv"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="0dp"
-            android:background="#00000000"
-            android:clickable="true"
-            android:gravity="center"
-            android:text="搜索"
-            android:textColor="@drawable/selector_search_text" />
-    </RelativeLayout>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/title_left" />
+    </LinearLayout>
+
+    <TextView 
+        android:id="@+id/title_bar_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingLeft="75.0dip"
+        android:paddingRight="75.0dip"
+        android:singleLine="true"
+        android:text="摆摊儿"
+        android:textColor="@color/titleBarFont"
+        android:textSize="22sp" />
+    
+    <LinearLayout 
+         android:clickable="true"
+        android:onClick="menu_right"
+        android:background="@drawable/selector_titlebar_left"
+        android:visibility="invisible"
+        android:id="@+id/menu_ll"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        
+        >
+         <ImageView
+             android:layout_gravity="center"
+        android:id="@+id/sv_menu_right"
+        android:layout_width="60dp"
+        android:layout_height="20dp"
+        
+        android:layout_marginRight="5.0dip"
+         />
+        
+    </LinearLayout>
+    
+    
+    <ImageView
+        android:id="@+id/iv_search"
+        android:padding="5dp"
+        android:layout_width="50dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="0dp"
+        android:clickable="true"
+        android:src="@drawable/selector_search"
+        android:gravity="center" >
+    </ImageView>
+    
 
 </RelativeLayout>

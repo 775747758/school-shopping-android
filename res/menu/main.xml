@@ -4,7 +4,7 @@
     >
     
     
-    <item
+   <!--  <item
         android:id="@+id/action_menu"
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/action_menu"
@@ -15,7 +15,7 @@
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/action_add"
         app:showAsAction="always"
-        android:title="增加"/>
+        android:title="增加"/> -->
     
 
 </menu>

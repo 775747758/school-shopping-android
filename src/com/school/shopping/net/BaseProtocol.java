@@ -74,7 +74,7 @@ public abstract class BaseProtocol<T> {
 		if(!isFromCache){
 			LogUtils.i("BaseProtocal：：加载更多，所以直接从网络获取");
 			json = loadFromNet(startIndex, lastIndex);
-			LogUtils.i("BaseProtocal：：json"+json);
+			LogUtils.i("BaseProtocal：：json gggg"+json);
 		}else{
 			// 1.从本地缓存读取数据，查看缓存时间
 			json = loadFromLocal();
@@ -97,6 +97,7 @@ public abstract class BaseProtocol<T> {
 				return list;
 			}
 		}
+		//LogUtils.i("BaseProtocal：：fanhui  null");
 		return null;
 	}
 
@@ -199,7 +200,7 @@ public abstract class BaseProtocol<T> {
 				}
 				sendSync.close();
 			} catch (Exception e) {
-				LogUtils.i("code:::::"+"cuowu");
+				LogUtils.i("code:::::"+"7777cuowu");
 				e.printStackTrace();
 				isNetError=true;
 				return null;

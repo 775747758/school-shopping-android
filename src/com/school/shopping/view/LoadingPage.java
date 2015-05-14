@@ -166,8 +166,9 @@ public abstract class LoadingPage extends FrameLayout{
 			public void run() {
 				//SystemClock.sleep(1000);//模拟服务器耗时操作
 				LoadResult result=load();
-				int value=result.getValue();
+				final int value=result.getValue();
 				state=value;//修改当前程序的状态
+				
 				UIUtils.runInMainThread(new Runnable() {
 					@Override
 					public void run() {

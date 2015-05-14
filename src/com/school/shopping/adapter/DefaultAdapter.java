@@ -150,7 +150,8 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 					public void run() {
 						if(newDatas == null){
 							LogUtils.i("新数据为空");
-							getMoreHolder().setData(MoreHolder.ERROR);
+							//getMoreHolder().setData(MoreHolder.ERROR);
+							getMoreHolder().setData(MoreHolder.NO_MORE);
 						}else if(newDatas.size()<20){
 							LogUtils.i("没有更多数据");
 							getMoreHolder().setData(MoreHolder.NO_MORE);

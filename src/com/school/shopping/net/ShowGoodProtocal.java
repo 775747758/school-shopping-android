@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,7 +86,7 @@ public class ShowGoodProtocal extends BaseProtocol<List<GoodVo>> {
 				urlParam.addParam("city", city);
 			}
 			if (keyword != null && !"".equals(keyword)) {
-				urlParam.addParam("keyword", keyword);
+				urlParam.addParam_Encode("keyword", keyword);
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

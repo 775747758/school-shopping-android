@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
     
-
+<!-- 
    <item
         android:id="@+id/action_search"
         android:actionViewClass="android.widget.SearchView"
@@ -25,6 +25,6 @@
     <item
         android:id="@+id/action_feedback"
         android:icon="@drawable/menu_feedback_icon"
-        android:title="@string/menu_feedback"/>
+        android:title="@string/menu_feedback"/> -->
 
 </menu>

@@ -13,6 +13,7 @@ import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
 import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.CircleImageView;
 
 public class GoodHolder extends BaseHolder<Good> {
 
@@ -22,7 +23,7 @@ public class GoodHolder extends BaseHolder<Good> {
 	private TextView price_tv;
 	private TextView isAdjust_tv;
 	private TextView type_tv;
-	private CustomShapeImageView portrait;
+	private CircleImageView portrait;
 	@Override
 	public void refreshView(Good good) {
 		
@@ -63,7 +64,7 @@ public class GoodHolder extends BaseHolder<Good> {
 		price_tv = (TextView) view.findViewById(R.id.price_tv);
 		isAdjust_tv = (TextView) view.findViewById(R.id.isAdjust_tv);
 		type_tv = (TextView) view.findViewById(R.id.type_tv);
-		portrait=(CustomShapeImageView)view.findViewById(R.id.portrait);
+		portrait=(CircleImageView)view.findViewById(R.id.portrait);
 		return this.view;
 	}
 
