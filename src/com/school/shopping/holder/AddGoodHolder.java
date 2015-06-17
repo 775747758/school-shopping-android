@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,10 +23,8 @@ import com.school.shopping.me.Activity_MyGoods;
 import com.school.shopping.net.MyGoodDetailProtocal;
 import com.school.shopping.net.URLParam;
 import com.school.shopping.net.URLProtocol;
-import com.school.shopping.showgoods.Activity_GoodDetail;
 import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
-import com.school.shopping.view.MyProgressPopUpWindow;
 import com.school.shopping.vo.GoodVo;
 
 public class AddGoodHolder extends BaseHolder<GoodVo> {
@@ -161,7 +158,7 @@ public class AddGoodHolder extends BaseHolder<GoodVo> {
 			
 			@Override
 			public void run() {
-				MyGoodDetailProtocal protocal=new MyGoodDetailProtocal();
+				MyGoodDetailProtocal protocal=MyGoodDetailProtocal.getInstance(id);
 				protocal.setGoodId(id);
 				protocal.load(-1, -1, false);
 				UIUtils.runInMainThread(new Runnable() {

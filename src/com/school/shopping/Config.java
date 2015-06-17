@@ -2,6 +2,7 @@ package com.school.shopping;
 
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import com.school.shopping.entity.User;
 import com.school.shopping.utils.FileUtils;
@@ -9,9 +10,14 @@ import com.school.shopping.utils.MD5;
 import com.school.shopping.utils.UIUtils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.util.Base64;
+import android.widget.Toast;
 
 public class Config {
 	
@@ -31,6 +37,7 @@ public class Config {
 	public static final String CITY = "city";
 	public static final String LONGTITUDE = "longtitude";
 	public static final String LATITUDE = "latitude";
+	public static final String ONECITY = "onecity";
 	
 	public static final String NET_ERROR = "net_error";
 	
@@ -46,6 +53,18 @@ public class Config {
 		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
 				.edit();
 		e.putBoolean(FIRST_IN, isFirstIn);
+		e.commit();
+	}
+	
+	public static boolean isOneCity() {
+		return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.getBoolean(ONECITY, false);
+	}
+	
+	public static void setOneCity(boolean isOneCity){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putBoolean(ONECITY, isOneCity);
 		e.commit();
 	}
 	
@@ -122,6 +141,11 @@ public class Config {
 		e.putString("school", user.getSchool());
 		e.putString("city", user.getCity());
 		e.putInt("gender", user.getGender());
+		e.putString("latitude", user.getLatitude());
+		e.putString("longitude", user.getLongitude());
+		e.putString("province", user.getProvince());
+		e.putInt("isShowPhone", user.getIsShowPhone());
+		e.putInt("isShowQq", user.getIsShowQq());
 		e.commit();
 	}
 
@@ -139,9 +163,14 @@ public class Config {
 		user.setCity(sp.getString("city", ""));
 		user.setSchool(sp.getString("school", ""));
 		user.setUname(sp.getString("uname", ""));
-		if (sp.getInt("id", -1) == -1) {
+		user.setLatitude(sp.getString("latitude", ""));
+		user.setLongitude(sp.getString("longitude", ""));
+		user.setProvince(sp.getString("province", ""));
+		user.setIsShowPhone(sp.getInt("isShowPhone",0));
+		user.setIsShowQq(sp.getInt("isShowQq",0));
+		/*if (sp.getInt("id", -1) == -1) {
 			return null;
-		}
+		}*/
 		return user;
 	}
 
@@ -167,7 +196,7 @@ public class Config {
 		SharedPreferences myPreferences = context.getSharedPreferences(
 				USER_INFO, Context.MODE_PRIVATE);
 		Editor editor = myPreferences.edit();
-		editor.putString(USERNAME, pw);
+		editor.putString(PASSWORD, pw);
 		editor.commit();
 	}
 
@@ -234,6 +263,16 @@ public class Config {
 		e.commit();
 	}
 	
+	public static void removeAppCache(){
+		Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+				.edit();
+		e.putString(KEY_TOKEN, null);
+		e.putString(PROVINCE, null);
+		e.putString(CITY, null);
+		e.putBoolean(ONECITY, false);
+		e.commit();
+	}
+	
 	public static void removeSDCache(String cacheName){
 		File file;
 		try {
@@ -252,5 +291,5 @@ public class Config {
 	}
 	
 	
-
+    
 }

@@ -31,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent"
-            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:gravity="center_vertical"
             android:hint="输入你的昵称"
             android:maxLength="10"
@@ -46,7 +45,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:hint="昵称"
-            android:textColor="@color/titleBarFont"
+            android:textColor="@color/titleBarFontReg"
             android:textSize="@dimen/font2" />
 
         <View
@@ -67,9 +66,9 @@
             android:layout_height="match_parent"
             android:background="@color/transparent"
             android:digits="0123456789"
-            android:maxLength="10"
+            android:maxLength="11"
             android:gravity="center_vertical"
-            android:hint="输入你的手机号码"
+            android:hint="选填"
             android:paddingLeft="60dp"
             android:textColorHint="@color/hinttextcolor"
             android:textSize="@dimen/font2" />
@@ -81,7 +80,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:hint="手机"
-            android:textColor="@color/titleBarFont"
+            android:textColor="@color/titleBarFontReg"
             android:textSize="@dimen/font2" />
 
         <View
@@ -105,7 +104,7 @@
             android:digits="0123456789"
             android:maxLength="15"
             android:gravity="center_vertical"
-            android:hint="输入你的QQ号码"
+            android:hint="选填"
             android:paddingLeft="60dp"
             android:textColorHint="@color/hinttextcolor"
             android:textSize="@dimen/font2" />
@@ -117,7 +116,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:hint="Q  Q"
-            android:textColor="@color/titleBarFont"
+            android:textColor="@color/titleBarFontReg"
             android:textSize="@dimen/font2" />
 
     </RelativeLayout>
@@ -229,7 +228,7 @@
             android:cacheColorHint="#00000000"
             android:clickable="true"
             android:gravity="center"
-            android:onClick="returnn"
+            android:onClick="previous"
             android:text="上一步"
             android:textColor="#FFFFFF"
             android:textColorHint="#00000000"

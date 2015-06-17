@@ -405,4 +405,21 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/**
+     * 删除文件夹下的所有文件
+     * @param oldPath
+     */
+    public static void deleteFile(File oldPath) {
+          if (oldPath.isDirectory()) {
+           System.out.println(oldPath + "是文件夹--");
+           File[] files = oldPath.listFiles();
+           for (File file : files) {
+             deleteFile(file);
+           }
+          }else{
+            oldPath.delete();
+          }
+        }
 }

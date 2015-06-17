@@ -14,20 +14,35 @@ import com.school.shopping.entity.Good;
 import android.os.Bundle;
 import android.os.Handler;
 
-	public class HomeProtocal extends BaseProtocol<Map<String, Object>>{
+public class HomeProtocal extends BaseProtocol<Map<String, Object>> {
+
+	String[] typeAry = { "衣服", "书籍", "数码", "杂货铺" };
 	
-		String[] typeAry={"衣服","书籍","数码","杂货铺"};
 	
+	
+	private HomeProtocal() {
+		super();
+	}
+
+	private static HomeProtocal protocal;
+
+	public static HomeProtocal getInstance() {
+		if (protocal == null)
+			protocal = new HomeProtocal();
+		return protocal;
+	}
+
 	@Override
 	protected String getKey() {
 		return URLProtocol.GET_HOME_GOODS;
 	}
+
 	@Override
 	protected Map<String, Object> parseJson(String json) {
 		Map<String, Object> map = new HashMap<String, Object>(1);
 		try {
 			JSONObject jsonObject = new JSONObject(json);
-			for(int i=0;i<typeAry.length;i++){
+			for (int i = 0; i < typeAry.length; i++) {
 				String temp = jsonObject.getString(typeAry[i]);
 				map.put(typeAry[i], getListFromJson(temp));
 			}
@@ -37,13 +52,13 @@ import android.os.Handler;
 		}
 		return map;
 	}
-	
-	public List<Good> getListFromJson(String json){
+
+	public List<Good> getListFromJson(String json) {
 		List<Good> goodsData = new ArrayList<Good>();
-		JSONArray tempArr=null;
+		JSONArray tempArr = null;
 		try {
 			tempArr = new JSONArray(json);
-			
+
 			for (int i = 0; i < tempArr.length(); i++) {
 				JSONObject jso = new JSONObject(tempArr.get(i).toString());
 				Good good = new Good();

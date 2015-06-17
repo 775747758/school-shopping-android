@@ -18,8 +18,59 @@ public class User {
 	private String latitude;
 	private String province;
 	
+	private int isShowQq;
+	private int isShowPhone;
 	
 	
+	
+	
+	
+	public User(int id, String uname, String password, String phone, String realName, String school, String rank,
+			String qq, int gender, String city, String deviceId, String longitude, String latitude, String province,
+			int isShowQq, int isShowPhone) {
+		super();
+		this.id = id;
+		this.uname = uname;
+		this.password = password;
+		this.phone = phone;
+		this.realName = realName;
+		this.school = school;
+		this.rank = rank;
+		this.qq = qq;
+		this.gender = gender;
+		this.city = city;
+		this.deviceId = deviceId;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.province = province;
+		this.isShowQq = isShowQq;
+		this.isShowPhone = isShowPhone;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", uname=" + uname + ", password=" + password + ", phone=" + phone + ", realName="
+				+ realName + ", school=" + school + ", rank=" + rank + ", qq=" + qq + ", gender=" + gender + ", city="
+				+ city + ", deviceId=" + deviceId + ", longitude=" + longitude + ", latitude=" + latitude
+				+ ", province=" + province + ", isShowQq=" + isShowQq + ", isShowPhone=" + isShowPhone + "]";
+	}
+
+	public int getIsShowQq() {
+		return isShowQq;
+	}
+
+	public void setIsShowQq(int isShowQq) {
+		this.isShowQq = isShowQq;
+	}
+
+	public int getIsShowPhone() {
+		return isShowPhone;
+	}
+
+	public void setIsShowPhone(int isShowPhone) {
+		this.isShowPhone = isShowPhone;
+	}
+
 	public String getLongitude() {
 		return longitude;
 	}
@@ -49,24 +100,7 @@ public class User {
 	}
 
 	
-	public User(int id, String uname, String password, String phone, String realName, String school, String rank,
-			String qq, int gender, String city, String deviceId, String longitude, String latitude, String province) {
-		super();
-		this.id = id;
-		this.uname = uname;
-		this.password = password;
-		this.phone = phone;
-		this.realName = realName;
-		this.school = school;
-		this.rank = rank;
-		this.qq = qq;
-		this.gender = gender;
-		this.city = city;
-		this.deviceId = deviceId;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.province = province;
-	}
+
 
 	public String getDeviceId() {
 		return deviceId;
@@ -138,13 +172,7 @@ public class User {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", uname=" + uname + ", password=" + password + ", phone=" + phone + ", realName="
-				+ realName + ", school=" + school + ", rank=" + rank + ", qq=" + qq + ", gender=" + gender + ", city="
-				+ city + ", deviceId=" + deviceId + "]";
-	}
-	
+
 
 
 	

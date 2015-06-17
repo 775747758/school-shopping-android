@@ -1,17 +1,18 @@
 package com.school.shopping.login;
 
 import java.io.File;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
+
 import com.meg7.widget.CustomShapeImageView;
 import com.school.shopping.BaseActivity;
 import com.school.shopping.Config;
@@ -25,10 +26,9 @@ import com.school.shopping.utils.CompressPicture;
 import com.school.shopping.utils.DeviceInfo;
 import com.school.shopping.utils.DialogUtils;
 import com.school.shopping.utils.FileUtils;
-import com.school.shopping.utils.MD5;
+import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.StringUtils;
 import com.school.shopping.utils.UIUtils;
-import com.school.shopping.view.MyProgressPopUpWindow;
 
 public class Activity_Register3 extends BaseActivity {
 
@@ -41,19 +41,21 @@ public class Activity_Register3 extends BaseActivity {
 	private String username;
 	private String password;
 	private CustomShapeImageView portrait_imageview;
-	private String city;
 	private String school;
 	public AlertDialog dialog = null;
 	private boolean isManChecked = true;
+	private Bitmap bitmap;
+	private AlertDialog selectPicDialog;
 	
 	@Override
 	protected void init() {
 		Intent intent = getIntent();
 		if (intent != null) {
-			username = intent.getStringExtra("username");
-			password = intent.getStringExtra("password");
 			school = intent.getStringExtra("school");
 		}
+		username=Config.getUname();
+		password=Config.getPW();
+		
 	}
 
 	@Override
@@ -99,35 +101,44 @@ public class Activity_Register3 extends BaseActivity {
 			}
 		});
 		StringBuilder builderFileName = new StringBuilder();
-		builderFileName.append("/user_").append(username.trim());
-		try {
-			file = new File(FileUtils.getCacheDir() + MD5.getMD5(builderFileName.toString()) + ".jpg");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(!StringUtils.isEmpty(username)){
+			builderFileName.append("/user_").append(username.trim());
+			try {
+				file = new File(FileUtils.getCacheDir() + builderFileName.toString() + ".jpg");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	
 
 	public void portrait(View view) {
-		DialogUtils.selectPicture(file);
+		if(selectPicDialog==null){
+				selectPicDialog=DialogUtils.selectPicture(file);
+		}else{
+			selectPicDialog.show();
+		}
 	}
 
 	
 
-	public void returnn(View view) {
-		Intent intent = new Intent(Activity_Register3.this, Activity_Register2.class);
+	public void previous(View view){
+		Intent intent=new Intent(Activity_Register3.this,Activity_Register2.class);
 		startActivity(intent);
+		finish();
 	}
 
 	public void next(View view) {
 		if (checkData()) {
-			if (dialog == null) {
-				dialog = MyProgressPopUpWindow.createADialog("正在提交中...");
+			if(dialog==null){
+				dialog = DialogUtils.createALoadingDialog("正在验证中...");
 			}
 			User user=new User();
-			user.setCity(Config.getCity());
+			if(!Config.isOneCity()){
+				user.setCity(Config.getCity());
+			}
 			user.setGender(isManChecked==true?1:0);
 			user.setId(-1);
 			user.setPassword(password);
@@ -140,7 +151,10 @@ public class Activity_Register3 extends BaseActivity {
 			user.setLatitude(Config.getLatitude());
 			user.setLongitude(Config.getLontitude());
 			user.setProvince(Config.getProvince());
-			final Register3Protocal protocal=new Register3Protocal();
+			
+			LogUtils.i("re3::"+username);
+			
+			final Register3Protocal protocal=Register3Protocal.getInstance(user);
 			protocal.setUser(user);
 			protocal.setUploadFile(file);
 			ThreadManager.getLongPool().execute(new Runnable() {
@@ -162,6 +176,7 @@ public class Activity_Register3 extends BaseActivity {
 								Intent intent = new Intent(Activity_Register3.this,
 										MainActivity.class);
 								startActivity(intent);
+								finish();
 							}
 						}
 					});
@@ -175,13 +190,17 @@ public class Activity_Register3 extends BaseActivity {
 			UIUtils.showMsg("您输入的昵称不符合规范，请重新输入！");
 			return false;
 		}
-		if (phone_tv.getText().toString().length()!=11) {
-			UIUtils.showMsg("您输入的手机号码不符合规范，请重新输入！");
-			return false;
+		if(phone_tv.getText().toString().length()>0){
+			if (phone_tv.getText().toString().length()!=11) {
+				UIUtils.showMsg("您输入的手机号码不符合规范，请重新输入！");
+				return false;
+			}
 		}
-		if (qq_tv.getText().toString().length() < 5 || qq_tv.getText().toString().length() > 15) {
-			UIUtils.showMsg("您输入的QQ码不符合规范，请重新输入！");
-			return false;
+		if(qq_tv.getText().toString().length()>0){
+			if (qq_tv.getText().toString().length() < 5 || qq_tv.getText().toString().length() > 15) {
+				UIUtils.showMsg("您输入的QQ码不符合规范，请重新输入！");
+				return false;
+			}
 		}
 		if(portrait_imageview.getTag()==null||!(Boolean) portrait_imageview.getTag())
 		 {
@@ -194,6 +213,10 @@ public class Activity_Register3 extends BaseActivity {
 		}
 		if(StringUtils.isEmpty(school)){
 			UIUtils.showMsg("您的学校信息有误，请返回上一页面，重新选择！");
+			return false;
+		}
+		if(file==null||!file.exists()){
+			UIUtils.showMsg("请重新选择头像！");
 			return false;
 		}
 		
@@ -218,10 +241,21 @@ public class Activity_Register3 extends BaseActivity {
 				CompressPicture.getimage(file.getAbsolutePath(), file);
 			}
 			portrait_imageview.setTag(true);
-			Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+			bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 			portrait_imageview.setImageBitmap(bitmap);
 			portrait_imageview.invalidate();
+			
 		}
 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		if(bitmap!=null){
+			if(!bitmap.isRecycled()){
+				bitmap.recycle();
+			}
+		}
+		super.onDestroy();
 	}
 }

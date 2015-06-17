@@ -6,7 +6,15 @@ import android.view.View;
 public abstract class BaseHolder<T> {
 
 	protected View view;
-	protected Activity activity;
+	private int position;
+	
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
 
 	private T data;
 
@@ -16,9 +24,8 @@ public abstract class BaseHolder<T> {
 	}
 	
 	//当有调用此构造方法，说明是从activity中调用
-	public BaseHolder(View view,Activity activity) {
+	public BaseHolder(View view) {
 		this.view = view;
-		this.activity=activity;
 		initView();
 		//view.setTag(this);
 	}
@@ -36,10 +43,6 @@ public abstract class BaseHolder<T> {
 
 	public View getRootView() {
 		return view;
-	}
-	
-	public Activity getCurrentActivity(){
-		return activity;
 	}
 
 	public abstract View initView();

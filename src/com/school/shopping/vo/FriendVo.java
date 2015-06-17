@@ -1,6 +1,9 @@
 package com.school.shopping.vo;
 
-public class FriendVo {
+import opensource.jpinyin.PinyinFormat;
+import opensource.jpinyin.PinyinHelper;
+
+public class FriendVo implements Comparable<FriendVo>{
 	
 	private int uid;
 	
@@ -8,7 +11,12 @@ public class FriendVo {
 	
 	private int gender;
 	
+	//因为获取拼音是很费时的，所以不能频繁调用，因此，每次初始化的时候就得到相应的拼音
+	private String pingYin;
 	
+	public String getPingYin() {
+		return pingYin;
+	}
 
 	public FriendVo() {
 		super();
@@ -19,6 +27,7 @@ public class FriendVo {
 		this.uid = uid;
 		this.realName = realName;
 		this.gender = gender;
+		pingYin=PinyinHelper.convertToPinyinString(realName,"",PinyinFormat.WITHOUT_TONE);
 	}
 
 	public int getUid() {
@@ -35,6 +44,7 @@ public class FriendVo {
 
 	public void setRealName(String realName) {
 		this.realName = realName;
+		pingYin=PinyinHelper.convertToPinyinString(realName,"",PinyinFormat.WITHOUT_TONE);
 	}
 
 	public int getGender() {
@@ -43,6 +53,11 @@ public class FriendVo {
 
 	public void setGender(int gender) {
 		this.gender = gender;
+	}
+
+	@Override
+	public int compareTo(FriendVo another) {
+		return this.pingYin.compareToIgnoreCase(another.getPingYin());
 	}
 	
 	

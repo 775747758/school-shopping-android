@@ -13,13 +13,32 @@
         <attr name="text"></attr>
         <attr name="text_size"></attr>
     </declare-styleable>
-     <!-- 自定义控件：颜色渐变的图标  结束 -->
-    
-    
-     <!-- 自定义控件：圆形头像  开始 -->
+    <!-- 自定义控件：颜色渐变的图标  结束 -->
+
+
+    <!-- 自定义控件：圆形头像  开始 -->
     <declare-styleable name="CircleImageView">
         <attr name="border_width" format="dimension" />
         <attr name="border_color" format="color" />
     </declare-styleable>
-	 <!-- 自定义控件：圆形头像 结束 -->
+    <!-- 自定义控件：圆形头像 结束 -->
+    
+      <!-- 自定义控件：滑动开关  开始 -->
+    <declare-styleable name="ToggleView">
+
+        <!-- 当前开关状态的属性, 取值类型为boolean ctrl + shift + c -->
+        <attr name="currentState" format="boolean" />
+
+        <!-- 开关打开背景图片的属性, 取值类型为: R文件的引用id -->
+        <attr name="backgroundOn" format="reference" />
+        
+         <!-- 开关闭合背景图片的属性, 取值类型为: R文件的引用id -->
+        <attr name="backgroundOff" format="reference" />
+
+        <!-- 开关滑动块的背景属性, 取值类型为: R文件的引用id -->
+        <attr name="slideButtonBackgroundID" format="reference" />
+    </declare-styleable>
+    <!-- 自定义控件：滑动开关  结束-->
+   
+   
 </resources>

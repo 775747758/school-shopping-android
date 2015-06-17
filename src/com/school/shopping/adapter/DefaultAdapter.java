@@ -14,15 +14,42 @@ import com.school.shopping.holder.MoreHolder;
 import com.school.shopping.manager.ThreadManager;
 import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.ElasticListView;
 
 public abstract class DefaultAdapter<T> extends BaseAdapter {
 	
-	List<T> data;
+	public List<T> data;
 	public static final int TYPE_MORE=0;
 	public static final int TYPE_ITEM=1;
 	private MoreHolder moreHolder;
 	private boolean is_load;
 	
+	private boolean isLoadingMore;
+	
+	private ElasticListView elasticListView;
+	
+	protected int position;
+	
+	public void setElasticListView(ElasticListView elasticListView) {
+		this.elasticListView = elasticListView;
+		elasticListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				itemClick(position,view);
+			}
+
+			
+		});
+	}
+	public boolean isLoadingMore() {
+		return isLoadingMore;
+	}
+	public void setLoadingMore(boolean isLoadingMore) {
+		this.isLoadingMore = isLoadingMore;
+	}
+
 	PullToRefreshListView listview=null;
 	
 	
@@ -37,14 +64,14 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				itemClick(position);
+				itemClick(position,view);
 			}
 
 			
 		});
 	}
 	
-	protected abstract  void itemClick(int position);
+	protected abstract  void itemClick(int position,View view);
 	
 	public DefaultAdapter(List<T> data) {
 		setData(data);
@@ -65,6 +92,7 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
+		this.position=position;
 		if(position<data.size()){
 			return data.get(position);
 		}
@@ -108,9 +136,11 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 		BaseHolder holder=null;
 		if (convertView == null) {
 			if(getItemViewType(position)==TYPE_MORE){
+				isLoadingMore=true;
 				LogUtils.i("加载到最后一项");
 				holder=getMoreHolder();
 			}else{
+				isLoadingMore=false;
 				holder = getHolder();
 			}
 			
@@ -120,8 +150,11 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 			holder = (BaseHolder) convertView.getTag();
 		}
 		if(getItemViewType(position)==TYPE_MORE){
+			isLoadingMore=true;
 			holder.setData(MoreHolder.HAS_MORE);
 		}else{
+			isLoadingMore=false;
+			holder.setPosition(position);
 			holder.setData(data.get(position));
 		}
 		return holder.getRootView();
@@ -152,7 +185,7 @@ public abstract class DefaultAdapter<T> extends BaseAdapter {
 							LogUtils.i("新数据为空");
 							//getMoreHolder().setData(MoreHolder.ERROR);
 							getMoreHolder().setData(MoreHolder.NO_MORE);
-						}else if(newDatas.size()<20){
+						}else if(newDatas.size()<=20){
 							LogUtils.i("没有更多数据");
 							getMoreHolder().setData(MoreHolder.NO_MORE);
 						}else{

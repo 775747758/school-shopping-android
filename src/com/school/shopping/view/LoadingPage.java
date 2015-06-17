@@ -173,6 +173,7 @@ public abstract class LoadingPage extends FrameLayout{
 					@Override
 					public void run() {
 						showPage();
+						state=STATE_UNKNOW;
 					}
 				});
 			}

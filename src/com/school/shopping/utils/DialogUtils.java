@@ -3,6 +3,7 @@ package com.school.shopping.utils;
 import java.io.File;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,22 +14,27 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.school.shopping.BaseActivity;
 import com.school.shopping.Config;
 import com.school.shopping.MyApplication;
 import com.school.shopping.R;
-import com.school.shopping.showgoods.Activity_ShowGoods;
+import com.school.shopping.fragment.Fragment_Home;
 
 public class DialogUtils {
+	
 	public static AlertDialog selectPicture(final File file) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.getRunActivity(),
-				AlertDialog.THEME_HOLO_LIGHT);
-		builder.setTitle("选择图片来源");
-		builder.setItems(new String[] { "相机", "图库" }, new DialogInterface.OnClickListener() {
+		AlertDialog.Builder builderSelectPic = new AlertDialog.Builder(BaseActivity.getRunActivity(), AlertDialog.THEME_HOLO_LIGHT);
+		builderSelectPic.setTitle("选择图片来源");
+		builderSelectPic.setItems(new String[] { "相机", "图库" }, new DialogInterface.OnClickListener() {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -52,48 +58,70 @@ public class DialogUtils {
 				}
 			}
 		});
+		AlertDialog selectDialog = builderSelectPic.create();
+		selectDialog.show();
+		return selectDialog;
+	}
 
-		AlertDialog alertDialog = builder.create();
+	public static AlertDialog savePic(final String filePath) {
+		AlertDialog.Builder builderSavePic = new AlertDialog.Builder(BaseActivity.getRunActivity(), AlertDialog.THEME_HOLO_LIGHT);
+		builderSavePic.setItems(new String[] { "保存到手机" }, new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				if (which == 0) {
+					FileUtils.copyFile(
+							filePath,
+							FileUtils.getExternalStoragePath()
+									+ filePath.substring(filePath.lastIndexOf(File.separator) + 1) + ".jpg", false);
+				}
+			}
+		});
+
+		AlertDialog alertDialog = builderSavePic.create();
 		alertDialog.show();
 		return alertDialog;
 	}
 
+	public static AlertDialog createALoadingDialog(String message) {
+		AlertDialog.Builder	builderLoading = new AlertDialog.Builder(BaseActivity.getRunActivity(),
+					AlertDialog.THEME_HOLO_LIGHT);
+		builderLoading.setInverseBackgroundForced(true);
+		View view=UIUtils.inflate(R.layout.dialog_progress);
+		((TextView)view.findViewById(R.id.message)).setText(message);
+		AlertDialog loadingDialog = builderLoading.create();
+		Window window = loadingDialog.getWindow();
+		window.setWindowAnimations(R.style.main_menu_animstyle);
+		WindowManager.LayoutParams wl = window.getAttributes();
+		window.setGravity(Gravity.BOTTOM);
+		loadingDialog.setCanceledOnTouchOutside(false);
+		loadingDialog.show();
+		loadingDialog.setContentView(view);
+		loadingDialog.getWindow().setLayout(LayoutParams.FILL_PARENT, 100);
+		return loadingDialog;
+	}
 	
-	
-	public static AlertDialog createASearchDialog()
-	{
-		AlertDialog.Builder builder = new AlertDialog.Builder(
-				BaseActivity.getRunActivity(), AlertDialog.THEME_HOLO_LIGHT);
-		builder.setInverseBackgroundForced(true);
-		LayoutInflater inflater = LayoutInflater.from(BaseActivity.getRunActivity());
-		View view = inflater.inflate(R.layout.dialog_search, null);
-		final EditText search_et=(EditText)view.findViewById(R.id.search_et);
-		TextView beginSearch_tv=(TextView) view.findViewById(R.id.beginSearch_tv);
-		beginSearch_tv.setOnClickListener(new OnClickListener() {
-			
+	public static AlertDialog checkNetState(){
+
+		final AlertDialog dialog = new AlertDialog.Builder(BaseActivity.getRunActivity()).create();
+		dialog.setCanceledOnTouchOutside(false);
+		dialog.show();
+		dialog.getWindow().setContentView(R.layout.dialog_neterror);
+		dialog.getWindow().findViewById(R.id.remain).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String keyword=search_et.getText().toString();
-				if(StringUtils.isEmpty(keyword)){
-					UIUtils.showMsg("请输入您要搜索的内容！");
-				}else{
-					Message message=new Message();
-					message.what=Activity_ShowGoods.BEGIN_SEARCH;
-					message.obj=keyword;
-					Activity_ShowGoods.mHandler.sendMessage(message);
-				}
+				NetUtils.openSetting();
+				dialog.cancel();
 			}
 		});
-		//messageTv.setText(message);
-		AlertDialog fluentAlert = builder.create();
-		Window window =  fluentAlert.getWindow();
-		window.setWindowAnimations(R.style.anim_search);
-		WindowManager.LayoutParams wl = window.getAttributes();
-		window.setGravity(Gravity.TOP);
-		fluentAlert.setCanceledOnTouchOutside(true);
-		fluentAlert.show();
-		fluentAlert.setContentView(view);
-		fluentAlert.getWindow().setLayout(LayoutParams.FILL_PARENT, 100);
-		return fluentAlert;
+		dialog.getWindow().findViewById(R.id.noremain).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.cancel();
+			}
+		});
+		return dialog;
+	
 	}
+
 }

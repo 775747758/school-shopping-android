@@ -53,7 +53,12 @@ public abstract class BaseProtocol<T> {
 	
 	private boolean isNetError=false;
 	
-	
+	private boolean isForceFromCache=false;
+
+	public void setForceFromCache(boolean isForceFromCache) {
+		this.isForceFromCache = isForceFromCache;
+	}
+
 	public boolean isNetError() {
 		return isNetError;
 	}
@@ -67,7 +72,8 @@ public abstract class BaseProtocol<T> {
 	/** 加载协议 
 	 * @param isFromCache */
 	public T load(int startIndex, int lastIndex, boolean isFromCache) {
-		
+		LogUtils.i("BaseProtocal：：isFromCache::"+isFromCache);
+		isNetError=false;
 		this.isFromCache=isFromCache;
 		String json = null;
 		//如果是加载更多直接从网络获取
@@ -118,18 +124,30 @@ public abstract class BaseProtocol<T> {
 			BufferedReader reader = null;
 			try {
 				reader = new BufferedReader(new FileReader(file));
+				
 				String line = reader.readLine();// 第一行是时间
 				Long time = Long.valueOf(line);
-				if (time > System.currentTimeMillis()) {// 如果时间未过期
+				//强制必须从缓存取数据，不看时间
+				if(!isForceFromCache){
+					if (time > System.currentTimeMillis()) {// 如果时间未过期
+						StringBuilder sb = new StringBuilder();
+						String result;
+						while ((result = reader.readLine()) != null) {
+							sb.append(result);
+						}
+						return sb.toString();
+					} else {
+						return null;
+					}
+				}else{
 					StringBuilder sb = new StringBuilder();
 					String result;
 					while ((result = reader.readLine()) != null) {
 						sb.append(result);
 					}
 					return sb.toString();
-				} else {
-					return null;
 				}
+				
 			} catch (Exception e) {
 				LogUtils.e(e);
 				return null;
@@ -147,6 +165,7 @@ public abstract class BaseProtocol<T> {
 	 * @param lastIndex 
 	 * @param startIndex */
 	protected String loadFromNet(int startIndex, int lastIndex) {
+		
 		LogUtils.i("BaseProtocal：：从网络加载");
 		String json = null;
 		String JSONDateUrl = getKey();
@@ -220,7 +239,7 @@ public abstract class BaseProtocol<T> {
 			if(isFromCache){
 				writer = new BufferedWriter(new FileWriter(path
 						+ MD5.getMD5(getKey())));
-				long time = System.currentTimeMillis() + 1000 * 60;// 先计算出过期时间，写入第一行
+				long time = System.currentTimeMillis() + 1000 * 60*5;// 先计算出过期时间，写入第一行
 				writer.write(time + "\r\n");
 				
 			}

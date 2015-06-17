@@ -65,7 +65,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:icon="@drawable/action_menu">
+        <activity android:name=".MainActivity"  android:windowSoftInputMode="adjustPan" android:launchMode="singleTask"  android:icon="@drawable/action_menu">
+            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -81,11 +82,11 @@
         </activity>
         <activity android:name=".login.Activity_Login" >
         </activity>
-        <activity android:name=".login.Activity_Register1" >
+        <activity android:name=".login.Activity_Register1"  android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name=".login.Activity_Register2" >
+        <activity android:name=".login.Activity_Register2"  android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name=".login.Activity_Register3" >
+        <activity android:name=".login.Activity_Register3"  android:windowSoftInputMode="adjustResize">
         </activity>
         <activity android:name=".me.Activity_DetailUserInfo" >
         </activity>
@@ -93,17 +94,17 @@
         </activity>
         <activity android:name=".me.Activity_AddGoods" >
         </activity>
-         <activity android:name=".me.Activity_MyGoods" >
+         <activity android:name=".me.Activity_MyGoods" android:launchMode="singleTask">
         </activity>
         <activity android:name=".chat.Activity_Chat" >
         </activity>
-        <activity android:name=".showgoods.Activity_ShowGoods" >
+        <activity android:name="com.school.shopping.home.Activity_ShowGoods" >
         </activity>
-        <activity android:name=".showgoods.Activity_GoodDetail" >
+        <activity android:name="com.school.shopping.home.Activity_GoodDetail" >
         </activity>
         <activity android:name=".me.Activity_AlterUserInfo" >
         </activity>
-        <activity android:name=".me.Activity_AlterCity" >
+        <activity android:name=".me.Activity_AlterCity" android:launchMode="singleTask">
         </activity>
          <activity android:name=".me.Activity_City" >
         </activity>
@@ -113,8 +114,19 @@
         </activity>
         <activity android:name=".login.Activity_School" >
         </activity>
+        <activity android:name=".user.Activity_OthersUserInfo" >
+        </activity>
+        <activity android:name=".me.Activity_Setting" >
+        </activity>
+        
+        <activity android:name=".Activity_ShowImage" >
+        </activity>
 
         <service android:name=".net.ParseJsonDataService" >
+        </service>
+        
+        <service
+            android:name=".service.LocationService" >
         </service>
         
 
@@ -270,6 +282,18 @@
             </intent-filter>
         </receiver>
         <!-- End Rong Cloud -->
+        
+        
+        <!-- leakcanary -->
+          <service
+            android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
+            android:enabled="false"
+            android:process=":leakcanary" />
+        <service
+            android:name="com.squareup.leakcanary.DisplayLeakService"
+            android:enabled="false" />
+        <activity android:name="com.squareup.leakcanary.internal.DisplayLeakActivity"/>
+         <!-- leakcanary -->
     </application>
 
 </manifest>

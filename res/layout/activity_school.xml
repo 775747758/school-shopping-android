@@ -5,13 +5,12 @@
 
     <include layout="@layout/title_bar_school" />
 
-    <ListView
+    <com.school.shopping.view.ElasticListView
         android:id="@+id/lv_school"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="65dp"
         android:divider="@color/transparent"
-        android:dividerHeight="0px" >
-    </ListView>
+        android:dividerHeight="0px" />
 
 </FrameLayout>

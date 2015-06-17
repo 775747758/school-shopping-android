@@ -6,11 +6,11 @@
     android:background="#EBEBEB"
     android:orientation="vertical" >
 
-    <include layout="@layout/title_bar_main" />
-
-    <ScrollView
+    <include layout="@layout/title_bar_userinfo" />
+    <com.school.shopping.view.ElasticScrollView
+        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:scrollbars="none" >
 
         <LinearLayout
@@ -27,7 +27,7 @@
                 android:orientation="vertical" >
 
                 <RelativeLayout
-                    android:id="@+id/protrait_l"
+                    android:id="@+id/protrait_rl"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
@@ -66,6 +66,7 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
+                    android:id="@+id/ll_realName"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -101,6 +102,7 @@
                     android:background="#EEEEEE" />
 
                 <LinearLayout
+                    android:id="@+id/ll_gender"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -136,6 +138,7 @@
                     android:background="#EEEEEE" />
                 
                 <LinearLayout
+                    android:id="@+id/ll_area"
                     android:clickable="true"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -308,7 +311,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="20dp"s
                 android:background="@drawable/selector__button_login"
                 android:clickable="true"
                 android:gravity="center"
@@ -317,6 +320,6 @@
                 android:textSize="18dp"
                 android:visibility="invisible" /> -->
         </LinearLayout>
-    </ScrollView>
+    </com.school.shopping.view.ElasticScrollView>
 
 </LinearLayout>

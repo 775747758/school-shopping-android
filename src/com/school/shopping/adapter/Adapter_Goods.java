@@ -1,6 +1,9 @@
  package com.school.shopping.adapter;
 
 import java.util.List;
+
+import android.view.View;
+
 import com.school.shopping.entity.Good;
 import com.school.shopping.holder.BaseHolder;
 import com.school.shopping.holder.GoodHolder;
@@ -28,7 +31,7 @@ public class Adapter_Goods extends DefaultAdapter<Good> {
 	}
 	@Override
 	protected List onLoadMore() {
-		HomeProtocal protocal=new HomeProtocal();
+		HomeProtocal protocal=HomeProtocal.getInstance();
 		/*if(goods==null){
 			LogUtils.i("旧数据为空，所以加载0--20");
 			return protocal.load(0, 20,false);
@@ -40,7 +43,7 @@ public class Adapter_Goods extends DefaultAdapter<Good> {
 		return null;
 	}
 	@Override
-	protected void itemClick(int position) {
+	protected void itemClick(int position,View view) {
 		// TODO Auto-generated method stub
 		
 	}

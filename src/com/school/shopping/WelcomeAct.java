@@ -1,12 +1,18 @@
 package com.school.shopping;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Handler;
+import android.util.TypedValue;
+import android.widget.Toast;
+
 import com.school.shopping.login.Activity_Login;
 import com.school.shopping.manager.ThreadManager;
-import com.school.shopping.showgoods.Activity_ShowGoods;
 import com.school.shopping.utils.FileUtils;
 import com.school.shopping.utils.LogUtils;
+import com.school.shopping.utils.StringUtils;
+import com.school.shopping.utils.UIUtils;
 
 public class WelcomeAct extends BaseActivity {
 
@@ -50,13 +56,15 @@ public class WelcomeAct extends BaseActivity {
 				token = Config.getCachedToken();
 				isAutoLogin = Config.getAutoLogin();
 				if (isAutoLogin) {
-					if (token != null) {
+					if (!StringUtils.isEmpty(token)) {
 						goHome();
 					} else {
 						LogUtils.i("token null");
 						goLogin();
 					}
 				} else {
+					//保证在进入系统前，token为空，因为在注册的时候会判断token
+					Config.cacheToken(null);
 					LogUtils.i("no  isAutoLogin");
 					goLogin();
 				}
@@ -71,8 +79,8 @@ public class WelcomeAct extends BaseActivity {
 	};
 
 	private void goHome() {
-		Intent i = new Intent(WelcomeAct.this, Activity_ShowGoods.class);
-		//Intent i = new Intent(WelcomeAct.this, MainActivity.class);
+		//Intent i = new Intent(WelcomeAct.this, Activity_ShowGoods.class);
+		Intent i = new Intent(WelcomeAct.this, MainActivity.class);
 		i.putExtra(Config.KEY_TOKEN, token);
 		startActivity(i);
 		finish();

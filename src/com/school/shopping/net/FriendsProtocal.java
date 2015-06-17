@@ -9,10 +9,23 @@ import com.school.shopping.utils.LogUtils;
 import com.school.shopping.vo.FriendVo;
 
 public class FriendsProtocal extends BaseProtocol<List<FriendVo>> {
+	
+	private static FriendsProtocal protocal;
+
+	public static FriendsProtocal getInstance(int uid) {
+		if (protocal == null)
+			protocal = new FriendsProtocal(uid);
+		return protocal;
+	}
 
 	private int uid;
 
 	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	private FriendsProtocal(int uid) {
+		super();
 		this.uid = uid;
 	}
 

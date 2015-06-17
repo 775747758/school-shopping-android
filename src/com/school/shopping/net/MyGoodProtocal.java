@@ -10,12 +10,34 @@ import com.school.shopping.entity.Good;
 import com.school.shopping.utils.LogUtils;
 
 public class MyGoodProtocal extends BaseProtocol<List<Good>> {
+	
+	
+
+
+	private int uid;
+	
+
+	public void setUid(int uid) {
+		this.uid = uid;
+	}
+
+	private MyGoodProtocal(int uid) {
+		super();
+		this.uid = uid;
+	}
+
+	private static MyGoodProtocal protocal;
+	public static MyGoodProtocal getInstance(int uid) {
+		if (protocal == null)
+			protocal = new MyGoodProtocal(uid);
+		return protocal;
+	}
 
 	@Override
 	protected String getKey() {
 		String JSONDateUrl = URLProtocol.GET_MY_GOODS;
-		URLParam param=new URLParam(JSONDateUrl);
-		param.addParam("uid",Config.getUID());
+		URLParam param = new URLParam(JSONDateUrl);
+		param.addParam("uid", uid);
 		setUrl(param.getQueryStr());
 		return URLProtocol.GET_MY_GOODS;
 	}

@@ -1,25 +1,21 @@
 package com.school.shopping;
 
-import android.app.Service;
-import android.os.Vibrator;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.GeofenceClient;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
+import com.baidu.mapapi.utils.DistanceUtil;
 
 public abstract class BaseLocationActivity extends BaseActivity implements BDLocationListener{
 
 	private LocationClient mLocationClient;
-	private GeofenceClient mGeofenceClient;
-	private Vibrator mVibrator;
 	private LocationClientOption option;
 	
 	@Override
 	protected void initView() {
-		initViews();
 		initLocationClient();
+		initViews();
 	}
 
 	protected abstract void initViews();
@@ -42,12 +38,6 @@ public abstract class BaseLocationActivity extends BaseActivity implements BDLoc
 			mLocationClient = new LocationClient(this.getApplicationContext());
 		}
 		mLocationClient.registerLocationListener(this);
-		if(mGeofenceClient==null){
-			mGeofenceClient = new GeofenceClient(getApplicationContext());
-		}
-		if(mVibrator==null){
-			mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-		}
 		initClientOption();
 		mLocationClient.start();
 	}
@@ -61,6 +51,14 @@ public abstract class BaseLocationActivity extends BaseActivity implements BDLoc
 		option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
 		option.setIsNeedAddress(true);
 		mLocationClient.setLocOption(option);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// 退出时销毁定位
+		mLocationClient.unRegisterLocationListener(this);
+		mLocationClient.stop();
+		super.onDestroy();
 	}
 
 }

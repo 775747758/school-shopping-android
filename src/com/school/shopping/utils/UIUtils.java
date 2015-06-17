@@ -12,12 +12,18 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.school.shopping.BaseActivity;
 import com.school.shopping.MyApplication;
+import com.school.shopping.R;
 
 public class UIUtils {
+
+	private static Toast toast;
+	private static View view;
+	private static TextView tv;
 
 	/*
 	 * 获取Context
@@ -31,7 +37,15 @@ public class UIUtils {
 	}
 
 	public static void showMsg(String text) {
-		Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
+		if(toast==null){
+			toast=new Toast(getContext());
+			view=UIUtils.inflate(R.layout.toast);
+			tv=(TextView) view.findViewById(R.id.tv);
+			toast.setDuration(Toast.LENGTH_SHORT);
+			toast.setView(view);
+		}
+		tv.setText(text);
+		toast.show();
 	}
 
 	public static int getWindowWidth() {

@@ -6,10 +6,23 @@ import com.school.shopping.utils.StringUtils;
 
 public class AddGoodProtocal extends BaseProtocol<Boolean> {
 	
+	private static AddGoodProtocal protocal;
+
+	public static AddGoodProtocal getInstance(Good good) {
+		if (protocal == null)
+			protocal = new AddGoodProtocal(good);
+		return protocal;
+	}
+	
 	
 	private Good good;
-
+	
 	public void setGood(Good good) {
+		this.good = good;
+	}
+
+	public AddGoodProtocal(Good good) {
+		super();
 		this.good = good;
 	}
 
@@ -21,9 +34,9 @@ public class AddGoodProtocal extends BaseProtocol<Boolean> {
 			urlParam.addParam("type",good.getType());
 			urlParam.addParam("price",good.getPrice());
 			urlParam.addParam("newLevel",good.getNewLevel());
-			urlParam.addParam("goodName",good.getGoodName());
+			urlParam.addParam_Encode("goodName",good.getGoodName());
 			urlParam.addParam("isAdjust", good.getIsAdjust());
-			urlParam.addParam("introduction", good.getIntroduction());
+			urlParam.addParam_Encode("introduction", good.getIntroduction());
 			urlParam.addParam("uid", good.getUid());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

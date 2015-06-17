@@ -1,5 +1,6 @@
 package com.school.shopping.me;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,30 +23,40 @@ import com.school.shopping.manager.ThreadManager;
 import com.school.shopping.net.AlterUserInfoProtocal;
 import com.school.shopping.utils.ListUtils;
 import com.school.shopping.utils.LogUtils;
+import com.school.shopping.utils.StringUtils;
 import com.school.shopping.utils.UIUtils;
+import com.school.shopping.view.ElasticListView;
 
 public class Activity_City extends BaseActivity {
 
-	private ListView lv_city;
+	private ElasticListView lv_city;
 	private List<String> cities;
 	private Adapter_City adapter;
 	private int proId;
 	private String proName;
-	Map<String, String> map=new HashMap<String, String>();
-	private String from; 
+	private Map<String, String> mapCity=new HashMap<String, String>();
+	private Map<String, String> mapProvince=new HashMap<String, String>();
+	private List<Map<String, String>> list=new ArrayList<Map<String, String>>();
 
 	@Override
 	protected void initView() {
 		setContentView(R.layout.activity_city);
-		lv_city=(ListView)findViewById(R.id.lv_city);
-		
+		lv_city=(ElasticListView)findViewById(R.id.lv_city);
+		//动到顶部和底部时出现的阴影消除方法
+		lv_city.setOverScrollMode(View.OVER_SCROLL_NEVER);
 		lv_city.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Config.saveCity(cities.get(position));
-				commit(cities.get(position));
+				if(StringUtils.isEmpty(Config.getCachedToken())){
+					Intent intent=new Intent(Activity_City.this,Activity_Register2.class);
+					startActivity(intent);
+					finish();
+				}else{
+					commit(cities.get(position));
+				}
 			}
 		});
 		ThreadManager.getShortPool().execute(new Runnable() {
@@ -73,12 +84,18 @@ public class Activity_City extends BaseActivity {
 			
 			@Override
 			public void run() {
-				final AlterUserInfoProtocal protocal=new AlterUserInfoProtocal();
-				map.put("alterType", "city");
-				map.put("paramType", "String");
-				//这里有问题，试试post请求
-				map.put("value",proName+" "+cityName);
-				protocal.setMap(map);
+				
+				mapCity.put("alterType", "city");
+				mapCity.put("paramType", "String");
+				mapCity.put("value",cityName);
+				list.add(mapCity);
+				
+				mapProvince.put("alterType", "province");
+				mapProvince.put("paramType", "String");
+				mapProvince.put("value",proName);
+				list.add(mapProvince);
+				final AlterUserInfoProtocal protocal=AlterUserInfoProtocal.getInstance();
+				protocal.setData(list);
 				
 				ThreadManager.getLongPool().execute(new Runnable() {
 					
@@ -89,15 +106,16 @@ public class Activity_City extends BaseActivity {
 							
 							@Override
 							public void run() {
-								cacheNewUser(cityName);
-								Intent intent=null;
-								if("Activity_Register2".equals(from)){
-									intent=new Intent(Activity_City.this,Activity_Register2.class);
+								if(protocal.isNetError()){
+									UIUtils.showMsg("网络错误，请检查网络！");
 								}else{
-									intent=new Intent(Activity_City.this,Activity_DetailUserInfo.class);
+									cacheNewUser(cityName);
+									Intent intent=new Intent(Activity_City.this,Activity_DetailUserInfo.class);
+									intent.putExtra("from", "Activity_City");
+									UIUtils.startActivity(intent);
+									finish();
 								}
-								intent.putExtra("from", "Activity_City");
-								UIUtils.startActivity(intent);
+								
 							}
 						});
 					}
@@ -113,7 +131,6 @@ public class Activity_City extends BaseActivity {
 		if(intent!=null){
 			proId=intent.getIntExtra("proId", 0);
 			proName=intent.getStringExtra("proName");
-			from=intent.getStringExtra("from");
 		}
 		
 	}
@@ -123,6 +140,33 @@ public class Activity_City extends BaseActivity {
 		user.setProvince(proName);
 		user.setCity(city);
 		Config.cacheUser(user);
+	}
+	
+	public void previous(View view){
+		Intent intent=new Intent(Activity_City.this,Activity_AlterCity.class);
+		startActivity(intent);
+		finish();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if(cities!=null){
+			cities.clear();
+			cities=null;
+		}
+		if(mapCity!=null){
+			mapCity.clear();
+			mapCity=null;
+		}
+		if(mapProvince!=null){
+			mapProvince.clear();
+			mapProvince=null;
+		}
+		if(list!=null){
+			list.clear();
+			list=null;
+		}
 	}
 
 }

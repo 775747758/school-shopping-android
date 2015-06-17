@@ -15,6 +15,8 @@ public class Good implements Parcelable {
 	private String introduction;//���
 	private int uid;//�û�id
 	
+	
+	
 
 	public Good() {
 		super();

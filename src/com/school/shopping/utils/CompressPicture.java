@@ -22,8 +22,8 @@ public class CompressPicture {
 		newOpts.inJustDecodeBounds = false;
 		int w = newOpts.outWidth;
 		int h = newOpts.outHeight;
-		float hh = 100f;//�������ø߶�Ϊ800f
-		float ww = 100f;//�������ÿ��Ϊ480f
+		float hh = 800f;//�������ø߶�Ϊ800f
+		float ww = 480f;//�������ÿ��Ϊ480f
 		//���űȡ������ǹ̶��������ţ�ֻ�ø߻��߿�����һ����ݽ��м��㼴��
 		int be = 1;//be=1��ʾ������
 		if (w > h && w > ww) {//����ȴ�Ļ���ݿ�ȹ̶���С����

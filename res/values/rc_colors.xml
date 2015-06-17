@@ -32,7 +32,8 @@
     <color name="rc_text_color_select_btn_disable">#97d9b3</color>
 
     <color name="rc_btn_submit">#ff4444</color>
+    <!-- 聊天设置里面最上面的颜色 -->
     <color name="rc_bg_highlight">#d3d3d3</color>
-    <color name="rc_bg_toolbar">#dee0e2</color>
+    <color name="rc_bg_toolbar">#000000</color>
 
 </resources>

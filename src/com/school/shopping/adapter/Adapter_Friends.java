@@ -2,11 +2,19 @@ package com.school.shopping.adapter;
 
 import java.util.List;
 
+import android.content.Intent;
+import android.view.View;
+
+import com.school.shopping.BaseActivity;
+import com.school.shopping.Config;
 import com.school.shopping.entity.Good;
 import com.school.shopping.holder.BaseHolder;
 import com.school.shopping.holder.FriendHolder;
+import com.school.shopping.me.Activity_DetailUserInfo;
 import com.school.shopping.net.FriendsProtocal;
+import com.school.shopping.user.Activity_OthersUserInfo;
 import com.school.shopping.utils.LogUtils;
+import com.school.shopping.utils.UIUtils;
 import com.school.shopping.vo.FriendVo;
 
 public class Adapter_Friends extends DefaultAdapter<FriendVo>{
@@ -26,14 +34,16 @@ public class Adapter_Friends extends DefaultAdapter<FriendVo>{
 	}
 
 	@Override
-	protected void itemClick(int position) {
-		// TODO Auto-generated method stub
-		
+	protected void itemClick(int position,View view) {
+		Intent intent=new Intent(BaseActivity.getRunActivity(),Activity_OthersUserInfo.class);
+		intent.putExtra("uid", data.get(position).getUid());
+		UIUtils.startActivity(intent);
 	}
 
 	@Override
 	public BaseHolder getHolder() {
-		return new FriendHolder();
+		FriendHolder holder=new FriendHolder();
+		return holder;
 	}
 
 	@Override

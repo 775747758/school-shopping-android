@@ -15,19 +15,23 @@ import android.widget.FrameLayout.LayoutParams;
 
 import com.handmark.pulltorefresh.library.internal.LoadingLayout;
 import com.school.shopping.R;
+import com.school.shopping.utils.LogUtils;
 import com.school.shopping.utils.UIUtils;
 import com.school.shopping.utils.ViewUtils;
 import com.school.shopping.view.LoadingPage;
 import com.school.shopping.view.LoadingPage.LoadResult;
 
 public abstract class BaseFragment extends Fragment {
-	private LoadingPage loadingPage;
+	public   LoadingPage loadingPage;
+	
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
 		if (loadingPage == null) {
+			LogUtils.i("create loadingview");
 			loadingPage = new LoadingPage(getActivity()) {
 				
 				@Override
@@ -49,8 +53,12 @@ public abstract class BaseFragment extends Fragment {
 	}
 	
 	public void show(){
+		LogUtils.i("showwwwwww");
 		if(loadingPage!=null){
 			loadingPage.show();
+			LogUtils.i("bu null");
+		}else{
+			LogUtils.i("null");
 		}
 	}
 	

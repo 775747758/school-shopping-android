@@ -16,8 +16,21 @@ public class Register3Protocal extends BaseProtocol<String> {
 	
 	private User user;
 
+
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	private Register3Protocal(User user) {
+		super();
+		this.user = user;
+	}
+
+	private static Register3Protocal protocal;
+	public static Register3Protocal getInstance(User user) {
+		if (protocal == null)
+			protocal = new Register3Protocal(user);
+		return protocal;
 	}
 
 	@Override
@@ -25,21 +38,23 @@ public class Register3Protocal extends BaseProtocol<String> {
 		URLParam urlParam = new URLParam(URLProtocol.REGISTER);
 		
 		try {
+			LogUtils.i("xkan:::"+user.getUname());
 			urlParam.addParam("uname",user.getUname());
 			urlParam.addParam("password",user.getPassword());
-			urlParam.addParam("city",user.getCity());
-			urlParam.addParam("school",user.getSchool());
-			urlParam.addParam("realName",user.getRealName());
+			if(!Config.isOneCity()){
+				urlParam.addParam_Encode("city",user.getCity());
+			}
+			urlParam.addParam_Encode("school",user.getSchool());
+			urlParam.addParam_Encode("realName",user.getRealName());
 			urlParam.addParam("phone",user.getPhone());
 			urlParam.addParam("qq",user.getQq());
 			urlParam.addParam("gender",user.getGender());
 			urlParam.addParam("deviceId", user.getDeviceId());
-			urlParam.addParam("school", user.getSchool());
-			//urlParam.addParam("longitude", user.getLongitude());
-			//urlParam.addParam("latitude", user.getLatitude());
-			urlParam.addParam("longitude", "109.85384");
-			urlParam.addParam("latitude", "40.661788");
-			urlParam.addParam("province", user.getProvince());
+			urlParam.addParam("longitude", user.getLongitude());
+			urlParam.addParam("latitude", user.getLatitude());
+			//urlParam.addParam("longitude", "109.85384");
+			//urlParam.addParam("latitude", "40.661788");
+			urlParam.addParam_Encode("province", user.getProvince());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

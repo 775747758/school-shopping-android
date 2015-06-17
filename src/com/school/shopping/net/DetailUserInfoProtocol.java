@@ -10,6 +10,19 @@ import com.school.shopping.entity.User;
 import com.school.shopping.utils.LogUtils;
 
 public class DetailUserInfoProtocol extends BaseProtocol<User> {
+	
+	
+	private DetailUserInfoProtocol() {
+		super();
+	}
+
+	private static DetailUserInfoProtocol protocal;
+
+	public static DetailUserInfoProtocol getInstance() {
+		if (protocal == null)
+			protocal = new DetailUserInfoProtocol();
+		return protocal;
+	}
 
 	@Override
 	protected String getKey() {
@@ -30,6 +43,7 @@ public class DetailUserInfoProtocol extends BaseProtocol<User> {
 		JSONObject jsonObject = null;
 		try {
 			jsonObject =new JSONObject(json).getJSONObject("user");
+			user.setProvince(jsonObject.getString("province"));
 			user.setCity(jsonObject.getString("city"));
 			user.setGender(jsonObject.getInt("gender"));
 			user.setId(jsonObject.getInt("id"));

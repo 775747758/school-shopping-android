@@ -2,15 +2,14 @@ package com.school.shopping;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.os.Handler;
@@ -18,29 +17,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.baidu.mapapi.SDKInitializer;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.LoadedFrom;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.BitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.school.shopping.entity.User;
-import com.school.shopping.manager.ThreadManager;
-import com.school.shopping.net.URLParam;
-import com.school.shopping.net.URLProtocol;
+import com.school.shopping.net.TokenProtocol;
+import com.school.shopping.service.LocationService;
+import com.school.shopping.utils.AppUtils;
+import com.school.shopping.utils.StringUtils;
 import com.school.shopping.utils.UIUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 public class MyApplication extends Application {
 
@@ -56,6 +47,8 @@ public class MyApplication extends Application {
 
 	@Override
 	public void onCreate() {
+		//启动定位服务,每次启动程序，更新位置
+		startService(new Intent(this,LocationService.class));
 		this.mMainTheadId = android.os.Process.myTid();
 		application=this;
 		this.mMainThreadHandler = new Handler();
@@ -63,8 +56,10 @@ public class MyApplication extends Application {
 		initUniversalImageLoader();// 初始化UniversalImageLoader
 		//链接融云服务器
 		connectRY();
-		
-		
+		//初始化leakCanary(检查内存泄露工具)
+		LeakCanary.install(this);
+		//使用百度地图的功能都要调用此方法
+		SDKInitializer.initialize(getApplicationContext());
 		super.onCreate();
 		
 	}
@@ -81,7 +76,7 @@ public class MyApplication extends Application {
 
 		String token = Config.getCachedToken();
 		//String token="PjeUvoPUf9pWr6RnkgnzZXq9xLh/oMx7amtlqs5tbs5dB2k5apj+lhSbsRBGT9HLiJM0xkkCeSlc1mms+SmncQ==";
-		if (token != null) {
+		if (!StringUtils.isEmpty(token)) {
 			// 初始化融云
 			RongIM.init(this);
 			try {
@@ -120,7 +115,7 @@ public class MyApplication extends Application {
 				.showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
 				.showImageOnFail(R.drawable.ic_launcher)// 设置图片加载/解码过程中错误时候显示的图片
 				.cacheInMemory(true)// 是否緩存都內存中
-				.cacheOnDisc(true)// 是否緩存到sd卡上
+				.cacheOnDisk(true)// 是否緩存到sd卡上
 				.bitmapConfig(Bitmap.Config.RGB_565)
 				.displayer(new FadeInBitmapDisplayer(500));
 		DisplayImageOptions options = builder.build();
@@ -133,11 +128,12 @@ public class MyApplication extends Application {
 				.showImageForEmptyUri(R.drawable.ic_launcher)// 设置图片Uri为空或是错误的时候显示的图片
 				.showImageOnFail(R.drawable.ic_launcher)// 设置图片加载/解码过程中错误时候显示的图片
 				.cacheInMemory(false)// 是否緩存都內存中
-				.cacheOnDisc(false)// 是否緩存到sd卡上
+				.cacheOnDisk(false)// 是否緩存到sd卡上
 				.bitmapConfig(Bitmap.Config.RGB_565)
 				.imageScaleType(ImageScaleType.EXACTLY)
-				.resetViewBeforeLoading(false)// default 设置图片在加载前是否重置、复位
+				.resetViewBeforeLoading(true)// default 设置图片在加载前是否重置、复位
 				.displayer(new FadeInBitmapDisplayer(500)).build();
+		
 		return options;
 	}
 
@@ -165,7 +161,7 @@ public class MyApplication extends Application {
 				.defaultDisplayImageOptions(getOptions())
 				.threadPoolSize(3)//线程池内加载的数量
 				.writeDebugLogs()
-				.memoryCacheSize(2 * 1024 * 1024)// 内存缓存的最大值
+				.memoryCacheSize(AppUtils.getBestCacheSize())// 内存缓存的最大值
 				.tasksProcessingOrder(QueueProcessingType.LIFO)// 设置图片下载和显示的工作队列排序
 				.build();
 		imageLoader = ImageLoader.getInstance();
@@ -173,39 +169,8 @@ public class MyApplication extends Application {
 	}
 
 	private void getTokenFromServer() {
-		Log.i("code","执行");
-		RequestQueue requestQueue = Volley.newRequestQueue(this);
-		String JSONDateUrl = URLProtocol.GET_TOKEN;
-		URLParam param = new URLParam(JSONDateUrl);
-		User user=Config.getCachedUser();
-		if(user!=null){
-			param.addParam("id",user.getId());
-			Log.i("ert", param.getQueryStr());
-			JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-					Request.Method.GET, param.getQueryStr(), null,
-					new Response.Listener<JSONObject>() {
-						public void onResponse(JSONObject response) {
-							try {
-								if(response.getString("code").equals("1")){
-									System.out.println(response.getString(Config.KEY_TOKEN));
-									Log.i("code", response.getString(Config.KEY_TOKEN));
-									Config.cacheToken(response.getString(Config.KEY_TOKEN));
-									connectRY();
-								}
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-						}
-					}, new Response.ErrorListener() {
-						public void onErrorResponse(
-								com.android.volley.VolleyError arg0) {
-							Log.i("code","失败");
-						}
-					});
-			requestQueue.add(jsonObjectRequest);
-		}
-		else{
-			Log.i("code","无user");
+		if(TokenProtocol.getInstance().load(-1, -1, false)==null){
+			connectRY();
 		}
 	}
 
@@ -228,6 +193,16 @@ public class MyApplication extends Application {
 					FadeInBitmapDisplayer.animate(imageView, 500); // 设置image隐藏动画500ms
 					displayedImages.add(imageUri); // 将图片uri添加到集合中
 				}
+			}
+		}
+	}
+	
+	
+	public static void deleteUILCache(String url){
+		File file=MyApplication.getImageLoader().getDiskCache().get(url);
+		if(file!=null){
+			if(file.exists()){
+				file.delete();
 			}
 		}
 	}

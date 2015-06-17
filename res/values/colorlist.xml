@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- titleBar的背景颜色 -->
-    <color name="titleBar">#F8F8F8</color>
-     <!-- titleBar点击按下的背景颜色 -->
+    <color name="titleBarReg">#F8F8F8</color>
+    <!-- titleBar点击按下的背景颜色 -->
     <color name="titleBar_pressed">#BCBCBC</color>
+    <color name="titleBarFontReg">#505050</color>
+    <color name="titleBarFont">#FFFFFF</color>
+
+    <!-- titleBar的背景颜色 -->
+    <color name="titleBar">#5DCDD1</color>
+    <color name="hinttextcolor">#C8C8CA</color>
+    <color name="white">#ffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="PressedColor">#EEEEEE</color>
+    <!-- 主界面背景颜色 -->
+    <color name="bg_page">#ffebebeb</color>
+    <!-- titleBar的字体颜色 -->
+    <color name="titleBarFontColor">#5D5F5E</color>
+    <color name="gray">#959394</color>
+    <color name="theme_background">#DEDEDE</color>
+    <color name="theme_red">#CF1D1B</color>
+    <color name="backgroundGray">#EBEBEB</color>
+    <color name="pressedGray">#DDDDDD</color>
+    <color name="divider">#D9D9D9</color>
+    <color name="divider2">#ECECE6</color>
+
+    <!-- Android L 字体颜色 -->
+    <color name="bodyShallow">#454545</color>
+    <color name="bodyDeep">#353535</color>
+    <color name="subTitle">#898989</color>
+    <color name="blue">#5DCDD1</color>
+    <color name="blueDeep">#3BABB0</color>
     
-    <color name="titleBarFont">#505050</color>
-    
-	<color name="hinttextcolor">#C8C8CA</color>
-	<color name="white">#ffffff</color>
-	<color name="transparent">#00000000</color>
-	<color name="PressedColor">#EEEEEE</color>
-	<!-- 主界面背景颜色 -->
-	<color name="bg_page">#ffebebeb</color>
-	<!-- titleBar的字体颜色 -->
-	<color name="titleBarFontColor">#5D5F5E</color>
-	<color name="gray">#959394</color>
-	<color name="theme_background">#DEDEDE</color>
-	<color name="theme_red">#CF1D1B</color>
-	
-	<color name="backgroundGray">#EBEBEB</color>
-	
-	<color name="pressedGray">#DDDDDD</color>
-	
-	<color name="divider">#D9D9D9</color>
-	
-	<color name="divider2">#ECECE6</color>
-	
-	
-	
-	
-	<!-- Android L 字体颜色 -->
-	<color name="bodyShallow">#454545</color>
-	<color name="bodyDeep">#353535</color>
-	<color name="subTitle">#898989</color>
-	
-	<color name="blue">#5DCDD1</color>
-	<color name="blueDeep">#3BABB0</color>
+    <color name="MyThemePink">#F86161</color>
+
 </resources>

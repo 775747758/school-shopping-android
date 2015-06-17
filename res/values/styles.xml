@@ -1,4 +1,6 @@
 <resources>
+    
+    
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -62,5 +64,5 @@
         <item name="android:indeterminateBehavior">repeat</item>
         <item name="android:indeterminateDuration">3500</item>
     </style>
-
+    
 </resources>

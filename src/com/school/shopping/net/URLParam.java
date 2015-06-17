@@ -23,7 +23,7 @@ public class URLParam {
 		else{
 			_query.append('?');
 		}
-		_query.append(name).append('=').append(URLDecoder.decode(value, "UTF-8"));
+		_query.append(name).append('=').append(value);
 	}
 	
 	public void addParam_Encode(String name,String value) throws UnsupportedEncodingException{

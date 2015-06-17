@@ -21,5 +21,9 @@
 	<dimen name="font9">112sp</dimen>
 	
 	<dimen name="paddingLeft1">15dp</dimen>
+	
+	<dimen name="titleBarHeight">48dp</dimen>
+	<dimen name="titleBarPaddingRight">15dp</dimen>
+	
 
 </resources>

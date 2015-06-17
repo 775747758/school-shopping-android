@@ -6,7 +6,6 @@ import android.text.style.ForegroundColorSpan;
 
 import java.text.DecimalFormat;
 
-
 /**
  * Created by mwqi on 2014/6/8.
  */
@@ -40,10 +39,15 @@ public class StringUtils {
 
 	/**
 	 * 返回一个高亮spannable
-	 * @param content 文本内容
-	 * @param color   高亮颜色
-	 * @param start   起始位置
-	 * @param end     结束位置
+	 * 
+	 * @param content
+	 *            文本内容
+	 * @param color
+	 *            高亮颜色
+	 * @param start
+	 *            起始位置
+	 * @param end
+	 *            结束位置
 	 * @return 高亮spannable
 	 */
 	public static CharSequence getHighLightText(String content, int color, int start, int end) {
@@ -60,7 +64,9 @@ public class StringUtils {
 
 	/**
 	 * 获取链接样式的字符串，即字符串下面有下划线
-	 * @param resId 文字资源
+	 * 
+	 * @param resId
+	 *            文字资源
 	 * @return 返回链接样式的字符串
 	 */
 	public static Spanned getHtmlStyleString(int resId) {
@@ -112,5 +118,25 @@ public class StringUtils {
 			size = String.valueOf(len * 100 / 1024 / 1024 / 1024 / (float) 100) + "GB";
 		}
 		return size;
+	}
+
+	/*
+	 * 选择排序String数组
+	 */
+	public static String[] sortArr(String[] args) {
+		for (int i = 0; i < args.length - 1; i++) {
+			int min = i;
+			for (int j = i + 1; j < args.length; j++) {
+				if (args[min].compareToIgnoreCase(args[j])>0) {
+					min = j;
+				}
+			}
+			if (min != i) {
+				String temp = args[i];
+				args[i] = args[min];
+				args[min] = temp;
+			}
+		}
+		return args;
 	}
 }

@@ -74,14 +74,15 @@
             android:layout_height="1dp"
             android:background="#DBDBDB" />
 
-        <ListView
+        <com.school.shopping.view.ElasticListView
+            android:scrollbars="none"
+            android:fadingEdge="none"
             android:divider="@color/transparent"
             android:dividerHeight="0px"
             android:id="@+id/lv_province"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" >
-        </ListView>
+            android:layout_marginTop="10dp" />
     </LinearLayout>
 
 </FrameLayout>

@@ -13,6 +13,14 @@ import com.school.shopping.utils.StringUtils;
 
 public class LoginProtocal extends BaseProtocol<User> {
 	
+	private static LoginProtocal protocal;
+
+	public static LoginProtocal getInstance(String uname, String password) {
+		if (protocal == null)
+			protocal = new LoginProtocal(uname,password);
+		return protocal;
+	}
+	
 	private String uname;
 	
 	private String password;
@@ -21,10 +29,16 @@ public class LoginProtocal extends BaseProtocol<User> {
 	public void setUname(String uname) {
 		this.uname = uname;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	private LoginProtocal(String uname, String password) {
+		super();
+		this.uname = uname;
+		this.password = password;
+	}
 
 	@Override
 	protected String getKey() {
@@ -57,6 +71,12 @@ public class LoginProtocal extends BaseProtocol<User> {
 				user.setRealName(jsonObject.getString("realName"));
 				user.setSchool(jsonObject.getString("school"));
 				user.setUname(jsonObject.getString("uname"));
+				user.setIsShowPhone(jsonObject.getInt("isShowPhone"));
+				user.setIsShowQq(jsonObject.getInt("isShowQq"));
+				user.setDeviceId(jsonObject.getString("deviceId"));
+				user.setLatitude(jsonObject.getString("latitude"));
+				user.setLongitude(jsonObject.getString("longitude"));
+				user.setProvince(jsonObject.getString("province"));
 				//因为user里没有token这个字段，所以就在这里存储起来
 				Config.cacheToken(new JSONObject(json).getString(Config.KEY_TOKEN));
 			} catch (JSONException e) {

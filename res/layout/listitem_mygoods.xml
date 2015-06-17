@@ -1,62 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <RelativeLayout
+    android:layout_height="150dp"
+     android:descendantFocusability="blocksDescendants"
+    android:background="@color/background_material_light" >
+
+    <android.support.v7.widget.CardView
+        android:background="#FFFFFF"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="100dp" >
+        android:layout_height="150dp"
+        android:layout_marginRight="10dp" >
+
         <ImageView
-            android:id="@+id/goodbg_iv"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:src="@drawable/back" />
+           	android:id="@+id/goodbg_iv"
+            android:scaleType="centerCrop"
+            android:src="@drawable/close"
+            android:layout_width="150dp"
+            android:layout_height="150dp" />
         
-         <TextView
-             android:background="@color/transparent"
-             android:layout_centerInParent="true"
-                android:id="@+id/goodName_tv"
-                android:layout_width="fill_parent"
-                android:layout_height="100dp"
-                android:gravity="center" />
-
         <TextView
-            android:id="@+id/type_tv"
-            android:layout_alignParentRight="true"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:gravity="center" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/goodbg_iv"
+            android:id="@+id/goodName_tv"
+            android:ems="15"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/titleBarFontReg"
+            android:textSize="@dimen/font2" />
+        
+        <TextView
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="160dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentBottom="true"
-            android:background="#99000000"
-            android:orientation="horizontal" >
+            android:layout_toRightOf="@id/goodbg_iv"
+            android:id="@+id/price_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold|italic"
+            android:text="¥100"
+            android:textColor="#FF4031"
+            android:textSize="@dimen/font4" />
+        
+        <TextView
+            android:layout_marginLeft="160dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="bottom|right"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/type_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="衣服"
+            android:textColor="@color/hinttextcolor"
+            android:textSize="@dimen/font2" />
+    </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/price_tv"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/newLevel_tv"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/isAdjust_tv"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center" />
-        </LinearLayout>
-    </RelativeLayout>
-    
-
-</LinearLayout>
+</RelativeLayout>

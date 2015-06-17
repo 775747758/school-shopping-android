@@ -29,6 +29,7 @@ public class AlterCity_DB {
 		}
 		cursorTemp.close();
 		db.close();
+		dbHelper.close();
 		return list;
 	}
 	
@@ -44,6 +45,7 @@ public class AlterCity_DB {
 		}
 		cursorTemp.close();
 		db.close();
+		dbHelper.close();
 		return list;
 	}
 

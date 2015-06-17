@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="45.0dip"
-    android:background="@color/titleBar"
+    android:layout_height="@dimen/titleBarHeight"
+    android:background="@drawable/titlebar"
     android:gravity="center_vertical" >
 
-     <LinearLayout
-        android:layout_width="50dp"
+      <ImageView
+        android:id="@+id/iv_back"
+        android:padding="10dp"
+        android:layout_width="@dimen/titleBarHeight"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="0dp"
-        android:background="@drawable/selector_titlebar_left"
         android:clickable="true"
-        android:gravity="center"
-        android:onClick="back" >
-        
-
-        <TextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:background="@drawable/title_left" />
-    </LinearLayout>
+        android:onClick="previous"
+        android:src="@drawable/selector_backbutton"
+        android:gravity="center" >
+    </ImageView>
 
     <TextView 
         android:id="@+id/title_bar_name"
@@ -32,35 +27,9 @@
         android:layout_centerInParent="true"
         android:ellipsize="end"
         android:gravity="center"
-        android:paddingLeft="75.0dip"
-        android:paddingRight="75.0dip"
         android:singleLine="true"
         android:text="选择城市"
         android:textColor="#ffffff"
-        android:textSize="22sp" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
-    <LinearLayout 
-         android:clickable="true"
-        android:onClick="menu_right"
-        android:background="@drawable/selector_titlebar_left"
-        android:visibility="invisible"
-        android:id="@+id/menu_ll"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_width="60dp"
-        android:layout_height="45dp"
-        
-        >
-         <ImageView
-             android:layout_gravity="center"
-        android:id="@+id/sv_menu_right"
-        android:layout_width="60dp"
-        android:layout_height="20dp"
-        
-        android:layout_marginRight="5.0dip"
-         />
-        
-    </LinearLayout>
-    
-
 </RelativeLayout>
